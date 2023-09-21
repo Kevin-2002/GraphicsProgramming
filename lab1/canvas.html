@@ -16,11 +16,21 @@
 
     <body>
 
-        <canvas id="canvasOne"></canvas>
+        <!--<canvas id="canvasOne"></canvas>-->
+
+        
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <h1>Football Pitch</h1>
+
+        <canvas id="footballPitch"></canvas>
 
         <script type="text/javascript">
-            
-            //change rectangle size
+            /*
+            //change canvas size
             document.getElementById("canvasOne").style.width = "600px";
             document.getElementById("canvasOne").style.height = "300px";
 
@@ -53,8 +63,6 @@
             ctx.strokeStyle = "green";
             ctx.stroke();
             
-            
-            
             //circle 2
             ctx.beginPath();
             ctx.fillStyle = "rgb(255, 0, 0)";
@@ -64,15 +72,40 @@
             //make ouline seperate colour
             ctx.strokeStyle = "purple";
             ctx.stroke();
-            
 
             //semicircle
             ctx.beginPath();
             ctx.fillStyle = "rgb(0, 255, 0)";
             ctx.arc(200, 60, 25, 0, Math.PI);//start at 0 radians end at pi radian(s)
             ctx.fill();
+            */
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+            //FOOTBALL Pitch
+            //////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            //change canvas size
+            document.getElementById("footballPitch").style.width = "225px";
+            document.getElementById("footballPitch").style.height = "360px";
+
+            // Gets a handle to the element with id footballPitch
+            const canvas = document.getElementById("footballPitch");
+            const ctx = canvas.getContext("2d");
+
+            //middle line
+            // Start a new Path
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(300, 150);
+
+            // Draw the Path
+            ctx.stroke();
+
+
 
         </script>
+
 
     </body>
 
