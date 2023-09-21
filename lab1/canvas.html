@@ -19,18 +19,22 @@
         <canvas id="canvasOne"></canvas>
 
         <script type="text/javascript">
-            // Gets a handle to the element with id canvasOne.
-            //change height
-            document.getElementById("canvasOne").style.height = "300px";
-            document.getElementById("canvasOne").style.width = "600px";
             
+            //change rectangle size
+            document.getElementById("canvasOne").style.width = "600px";
+            document.getElementById("canvasOne").style.height = "300px";
+
+            // Gets a handle to the element with id canvasOne.
+            const canvas = document.getElementById("canvasOne");
+            const ctx = canvas.getContext("2d");
+
             // Set the canvas up for drawing in 2D.
-            canvas = document.getElementById("canvasOne");
-            ctx = canvas.getContext("2d");
             ctx.font = "20px Arial";
-            ctx.fillText("check", 10, 20);
+            ctx.fillText("Kevin McShane", 10, 20);
             
             // Set the fill colour to bright red.
+            ctx.fillStyle = "rgb(255, 0, 0)";
+            ctx.fillRect(90, 90, 50, 25);
             
             // Create a filled rectangle 
             
