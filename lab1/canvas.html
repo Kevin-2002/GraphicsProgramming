@@ -48,6 +48,7 @@
             ctx.fillStyle = "rgb(0, 100, 155)";
             ctx.arc(60, 60, 25, 0, 2 * Math.PI);//start at 0 radians end at 2 pi radians
             ctx.fill();
+
             //make ouline seperate colour
             ctx.strokeStyle = "green";
             ctx.stroke();
@@ -59,12 +60,17 @@
             ctx.fillStyle = "rgb(255, 0, 0)";
             ctx.arc(120, 60, 25, 0, 2 * Math.PI);//start at 0 radians end at 2 pi radians
             ctx.fill();
+
             //make ouline seperate colour
             ctx.strokeStyle = "purple";
             ctx.stroke();
             
-            
-            
+
+            //semicircle
+            ctx.beginPath();
+            ctx.fillStyle = "rgb(0, 255, 0)";
+            ctx.arc(200, 60, 25, 0, Math.PI);//start at 0 radians end at pi radian(s)
+            ctx.fill();
 
         </script>
 
