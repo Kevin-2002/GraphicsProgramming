@@ -21,18 +21,14 @@
         <script type="text/javascript">
             // Gets a handle to the element with id canvasOne.
             //change height
-            document.getElementById('canvasOne').style.height = "300px";
-            document.getElementById('canvasOne').style.width = "600px";
+            document.getElementById("canvasOne").style.height = "300px";
+            document.getElementById("canvasOne").style.width = "600px";
             
             // Set the canvas up for drawing in 2D.
-            function draw() {
-                const ctx = document.getElementById("canvasOne").getContext("2d");
-                ctx.font = "48px serif";
-                ctx.fillText("Hello world", 10, 10);
-            }
-
-            //run function
-            draw();
+            canvas = document.getElementById("canvasOne");
+            ctx = canvas.getContext("2d");
+            ctx.font = "20px Arial";
+            ctx.fillText("Kevin McShane", 10, 20);
             
             // Set the fill colour to bright red.
             
