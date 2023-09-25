@@ -16,9 +16,9 @@
 
     <body>
 
-        <!--<canvas id="canvasOne"></canvas>-->
+        <canvas id="canvasOne"></canvas>
 
-        
+        <!--
         <br>
         <br>
         <br>
@@ -28,8 +28,9 @@
 
         <canvas id="footballPitch"></canvas>
 
+        -->
+
         <script type="text/javascript">
-            /*
             //change canvas size
             document.getElementById("canvasOne").style.width = "600px";
             document.getElementById("canvasOne").style.height = "300px";
@@ -78,30 +79,29 @@
             ctx.fillStyle = "rgb(0, 255, 0)";
             ctx.arc(200, 60, 25, 0, Math.PI);//start at 0 radians end at pi radian(s)
             ctx.fill();
-            */
 
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////
             //FOOTBALL Pitch
             //////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+/*
             //change canvas size
             document.getElementById("footballPitch").style.width = "225px";
             document.getElementById("footballPitch").style.height = "360px";
 
             // Gets a handle to the element with id footballPitch
-            const canvas = document.getElementById("footballPitch");
-            const ctx = canvas.getContext("2d");
+            const canvas2 = document.getElementById("footballPitch");
+            const ctx = canvas2.getContext("2d");
 
             //middle line
             // Start a new Path
             ctx.beginPath();
-            ctx.moveTo(0, 0);
-            ctx.lineTo(300, 150);
+            ctx.moveTo(0, 75);//300 max x 150 max y
+            ctx.lineTo(300, 75);
 
             // Draw the Path
             ctx.stroke();
-
+*/
 
 
         </script>
