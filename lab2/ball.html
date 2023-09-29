@@ -1,94 +1,81 @@
-
 <!DOCTYPE html>
 
 <html>
 
-  <head>
-    <meta charset="UTF-8">
-    <title>Canvas</title>
+<head>
+  <meta charset="UTF-8">
+  <title>Canvas</title>
 
-    <style type="text/css">
-      body {
-        background-color: white;
-      }
+  <style type="text/css">
+    body {
+      background-color: white;
+    }
 
-      canvas{
-        border: 2px solid black;
-      }
-    </style>
+    canvas {
+      border: 2px solid black;
+    }
+  </style>
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <h1>Kevin McShane</h1>
+  <h1>Kevin McShane</h1>
 
-    <canvas id="canvas-for-ball" height="300px" width="600px"></canvas>
+  <canvas id="canvas-for-ball" height="300px" width="600px"></canvas>
 
-    <script type="text/javascript">
-      // Gets a handle to the element with id canvasOne.
-      var canvas = document.getElementById("canvas-for-ball");
-      // Get a 2D context for the canvas.
-      var ctx = canvas.getContext("2d");
-      
-      class ball {
-        //constructors
-        constructor(xPos, yPos, xSpeed, ySpeed, radius) {
-          this.xPos = xPos;
-          this.yPos = yPos;
-          this.xSpeed = xSpeed;
-          this.ySpeed = ySpeed;
-          this.radius = radius;
-        }
+  <script type="text/javascript">
+    // Gets a handle to the element with id canvasOne.
+    var canvas = document.getElementById("canvas-for-ball");
+    // Get a 2D context for the canvas.
+    var ctx = canvas.getContext("2d");
 
-        //functions
-        Draw() {
-          
-        }
-
-        Move() {
-          
-        }
-
-        resize() {
-
-        }
-
-
-      }
-
-      // The vertical location of the ball.
-      var y = 10;
-      var ySpeed = 1;
-
-      // A function to repeat every time the animation loops.
-      function repeatme() {
-        //clear the frame before repeating
-        ctx.clearRect(0, 0, 600, 300);
-        
+    class ball {
+      //functions
+      Draw (x, y, r) {
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
-        ctx.arc(50, y, 3, 0, 2 * Math.PI);//radius 3
+        ctx.arc(x, y, r, 0, 2 * Math.PI);//radius 3
         ctx.stroke();
+        return;
+      }
+    }
 
-        // Update the y location.
-        y += ySpeed;
-        
-        // If the ball hits the bottom or the top of the canvas (radius accounted for).
-        if(y == 297 || y == 3){
-          ySpeed *= -1;
-        }
+    //make an instance of ball
+    const b = new ball();
 
-        //restart the method
-        window.requestAnimationFrame(repeatme);
+    // The vertical location of the ball.
+    var y = 10;
+    var x = 50;
+    var r = 3;
+    var ySpeed = 1;
+
+    // A function to repeat every time the animation loops.
+    function repeatme() {
+      //clear the frame before repeating
+      ctx.clearRect(0, 0, 600, 300);
+
+      //draw the ball
+      b.Draw(x, y, r);
+
+      // Update the y location.
+      y += ySpeed;
+
+      // If the ball hits the bottom or the top of the canvas (radius accounted for).
+      if (y == 297 || y == 3) {
+        ySpeed *= -1;
       }
 
-      // Get the animation going.
-      repeatme();
+      //restart the method
+      window.requestAnimationFrame(repeatme);
+    }
 
-      
-    </script>
+    // Get the animation going.
+    repeatme();
 
-  </body>
+
+  </script>
+
+</body>
 
 </html>
