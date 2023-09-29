@@ -31,6 +31,32 @@
       // Get a 2D context for the canvas.
       var ctx = canvas.getContext("2d");
       
+      class ball {
+        //constructors
+        constructor(xPos, yPos, xSpeed, ySpeed, radius) {
+          this.xPos = xPos;
+          this.yPos = yPos;
+          this.xSpeed = xSpeed;
+          this.ySpeed = ySpeed;
+          this.radius = radius;
+        }
+
+        //functions
+        Draw() {
+          
+        }
+
+        Move() {
+          
+        }
+
+        resize() {
+
+        }
+
+
+      }
+
       // The vertical location of the ball.
       var y = 10;
       var ySpeed = 1;
@@ -44,13 +70,13 @@
         ctx.beginPath();
         ctx.arc(50, y, 3, 0, 2 * Math.PI);//radius 3
         ctx.stroke();
-        
+
         // Update the y location.
         y += ySpeed;
         
-        // If the ball hits the bottom of the canvas (radius accounted for).
-        if(y == 297){
-          ySpeed = 0;
+        // If the ball hits the bottom or the top of the canvas (radius accounted for).
+        if(y == 297 || y == 3){
+          ySpeed *= -1;
         }
 
         //restart the method
