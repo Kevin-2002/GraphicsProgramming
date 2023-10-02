@@ -31,10 +31,11 @@
     var ctx = canvas.getContext("2d");
 
     class ball {
-      constructor(x, y, r, ySpeed) {
+      constructor(x, y, r, xSpeed, ySpeed) {
         this.x = x;
         this.y = y;
         this.r = r;
+        this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
       }
 
@@ -47,18 +48,24 @@
       }
 
       Move() {
-        // Update the y location.
+        // Update the x and y location.
+        this.x += this.xSpeed;
         this.y += this.ySpeed;
 
         // If the ball hits the bottom or the top of the canvas (radius accounted for).
         if (this.y == 297 || this.y == 3) {
           this.ySpeed *= -1;
         }
+
+        //if the ball hits either side of the canvas (radius accounted for)
+        if (this.x == 597 || this.x == 3) {
+          this.xSpeed *= -1;
+        }
       }
     }
 
     //make an instance of ball
-    const b = new ball(50, 10, 3, 1);//x value, y value, radius & ySpeed passed in
+    const b = new ball(50, 10, 3, 1, 1);//x value, y value, radius, ySpeed & xSpeed passed in
 
     // A function to repeat every time the animation loops.
     function repeatme() {
