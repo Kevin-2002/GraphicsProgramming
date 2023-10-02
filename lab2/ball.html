@@ -31,24 +31,34 @@
     var ctx = canvas.getContext("2d");
 
     class ball {
+      constructor(x, y, r, ySpeed) {
+        this.x = x;
+        this.y = y;
+        this.r = r;
+        this.ySpeed = ySpeed;
+      }
+
       //functions
-      Draw (x, y, r) {
+      Draw() {
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
-        ctx.arc(x, y, r, 0, 2 * Math.PI);//radius 3
+        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);//radius 3
         ctx.stroke();
-        return;
+      }
+
+      Move() {
+        // Update the y location.
+        this.y += this.ySpeed;
+
+        // If the ball hits the bottom or the top of the canvas (radius accounted for).
+        if (this.y == 297 || this.y == 3) {
+          this.ySpeed *= -1;
+        }
       }
     }
 
     //make an instance of ball
-    const b = new ball();
-
-    // The vertical location of the ball.
-    var y = 10;
-    var x = 50;
-    var r = 3;
-    var ySpeed = 1;
+    const b = new ball(50, 10, 3, 1);//x value, y value, radius & ySpeed passed in
 
     // A function to repeat every time the animation loops.
     function repeatme() {
@@ -56,15 +66,10 @@
       ctx.clearRect(0, 0, 600, 300);
 
       //draw the ball
-      b.Draw(x, y, r);
+      b.Draw();
 
-      // Update the y location.
-      y += ySpeed;
-
-      // If the ball hits the bottom or the top of the canvas (radius accounted for).
-      if (y == 297 || y == 3) {
-        ySpeed *= -1;
-      }
+      //change co-ordinates for the next frame
+      b.Move();
 
       //restart the method
       window.requestAnimationFrame(repeatme);
