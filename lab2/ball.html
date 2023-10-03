@@ -43,6 +43,7 @@
       Draw() {
         //calculate points of contact
         var feta = Math.PI / 4;
+        var spin = 0.5;
         var xOC = (this.r * Math.cos(feta)) + this.x;
         var yOC = (this.r * Math.sin(feta)) + this.y;
 
@@ -55,9 +56,7 @@
         //move the cursor to the center of the circle
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(xOC, yOC);
-        ctx.stroke();
-
-        //console.log((this.r * Math.cos(Math.PI / 4)) + this.x);
+        ctx.stroke();        
       }
 
       Move() {
