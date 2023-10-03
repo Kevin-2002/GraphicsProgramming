@@ -32,36 +32,38 @@
 
     class ball {
       constructor(x, y, r, xSpeed, ySpeed) {
+        //constructor variables
         this.x = x;
         this.y = y;
         this.r = r;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
-        this.theta = Math.PI / 4;
+
+        //other object variables
+        this.thetaClockwise = Math.PI / 4;
+        this.thetaAntiClockwise = Math.PI / 4;
+        this.spin = 0.1;
       }
 
       //functions
       Draw() {
-        //calculate points of contact
-        //var theta = ;
-
-        //update this.theta to allow rotate method access
-
+        //calculate points of contact for corners of circle
         //find point of contact for bottom right corner
-        var xOC1 = (this.r * Math.cos(this.theta)) + this.x;
-        var yOC1 = (this.r * Math.sin(this.theta)) + this.y;
+        var xOC1 = (this.r * Math.cos(this.thetaClockwise)) + this.x;
+        var yOC1 = (this.r * Math.sin(this.thetaClockwise)) + this.y;
 
+        //note xOC2&3 are moving anticlockwise so they use the thetaAnitClockwise to sync movement
         //find point of contact for bottom left corner
-        var xOC2 = (-this.r * Math.cos(this.theta)) + this.x;
-        var yOC2 = (this.r * Math.sin(this.theta)) + this.y;
+        var xOC2 = (-this.r * Math.cos(this.thetaAntiClockwise)) + this.x;
+        var yOC2 = (this.r * Math.sin(this.thetaAntiClockwise)) + this.y;
 
         //find point of contact for top right corner
-        var xOC3 = (this.r * Math.cos(this.theta)) + this.x;
-        var yOC3 = (-this.r * Math.sin(this.theta)) + this.y;
+        var xOC3 = (this.r * Math.cos(this.thetaAntiClockwise)) + this.x;
+        var yOC3 = (-this.r * Math.sin(this.thetaAntiClockwise)) + this.y;
 
         //find point of contact for top left corner
-        var xOC4 = (-this.r * Math.cos(this.theta)) + this.x;
-        var yOC4 = (-this.r * Math.sin(this.theta)) + this.y;
+        var xOC4 = (-this.r * Math.cos(this.thetaClockwise)) + this.x;
+        var yOC4 = (-this.r * Math.sin(this.thetaClockwise)) + this.y;
 
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
@@ -76,6 +78,11 @@
         ctx.lineTo(xOC1, yOC1);
         ctx.stroke();
 
+        //draw the to top left corner
+        ctx.moveTo(this.x, this.y);//reset cursor
+        ctx.lineTo(xOC4, yOC4);
+        ctx.stroke();
+
         //draw the to bottom left corner
         ctx.moveTo(this.x, this.y);//reset cursor
         ctx.lineTo(xOC2, yOC2);
@@ -86,10 +93,6 @@
         ctx.lineTo(xOC3, yOC3);
         ctx.stroke();
 
-        //draw the to top left corner
-        ctx.moveTo(this.x, this.y);//reset cursor
-        ctx.lineTo(xOC4, yOC4);
-        ctx.stroke();
       }
 
       Move() {
@@ -99,12 +102,15 @@
 
         // If the ball hits the bottom or the top of the canvas (radius accounted for).
         if (this.y == (300 - this.r) || this.y == (0 + this.r)) {
+          //change direction of movement and rotation
           this.ySpeed *= -1;
+          this.spin *= -1;
         }
 
         //if the ball hits either side of the canvas (radius accounted for)
         if (this.x == (600 - this.r) || this.x == (0 + this.r)) {
           this.xSpeed *= -1;
+          this.spin *= -1;
         }
       }
 
@@ -116,8 +122,12 @@
         this.y = r;
       }
 
-      rotate(spin) {
-        this.theta += spin;
+      rotate() {
+        //for xOC1&4
+        this.thetaClockwise += this.spin;
+
+        //for xOC2&3
+        this.thetaAntiClockwise -= this.spin;
       }
     }
 
@@ -138,7 +148,8 @@
       //change co-ordinates for the next frame
       b.Move();
 
-      //b.rotate(0.1);
+      //start the rotation
+      b.rotate();
 
       //restart the method
       window.requestAnimationFrame(repeatme);
