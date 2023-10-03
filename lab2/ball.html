@@ -41,11 +41,23 @@
 
       //functions
       Draw() {
+        //calculate points of contact
+        var feta = Math.PI / 4;
+        var xOC = (this.r * Math.cos(feta)) + this.x;
+        var yOC = (this.r * Math.sin(feta)) + this.y;
+
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
-        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);//radius 3
+        ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
         ctx.strokeStyle = "red";
         ctx.stroke();
+
+        //move the cursor to the center of the circle
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(xOC, yOC);
+        ctx.stroke();
+
+        //console.log((this.r * Math.cos(Math.PI / 4)) + this.x);
       }
 
       Move() {
