@@ -37,29 +37,31 @@
         this.r = r;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
+        this.theta = Math.PI / 4;
       }
 
       //functions
       Draw() {
         //calculate points of contact
-        var feta = Math.PI / 4;
-        var spin = 0.5;
+        //var theta = ;
+
+        //update this.theta to allow rotate method access
 
         //find point of contact for bottom right corner
-        var xOC1 = (this.r * Math.cos(feta)) + this.x;
-        var yOC1 = (this.r * Math.sin(feta)) + this.y;
+        var xOC1 = (this.r * Math.cos(this.theta)) + this.x;
+        var yOC1 = (this.r * Math.sin(this.theta)) + this.y;
 
         //find point of contact for bottom left corner
-        var xOC2 = (-this.r * Math.cos(feta)) + this.x;
-        var yOC2 = (this.r * Math.sin(feta)) + this.y;
+        var xOC2 = (-this.r * Math.cos(this.theta)) + this.x;
+        var yOC2 = (this.r * Math.sin(this.theta)) + this.y;
 
         //find point of contact for top right corner
-        var xOC3 = (this.r * Math.cos(feta)) + this.x;
-        var yOC3 = (-this.r * Math.sin(feta)) + this.y;
+        var xOC3 = (this.r * Math.cos(this.theta)) + this.x;
+        var yOC3 = (-this.r * Math.sin(this.theta)) + this.y;
 
         //find point of contact for top left corner
-        var xOC4 = (-this.r * Math.cos(feta)) + this.x;
-        var yOC4 = (-this.r * Math.sin(feta)) + this.y;
+        var xOC4 = (-this.r * Math.cos(this.theta)) + this.x;
+        var yOC4 = (-this.r * Math.sin(this.theta)) + this.y;
 
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
@@ -113,6 +115,10 @@
         this.x = r;
         this.y = r;
       }
+
+      rotate(spin) {
+        this.theta += spin;
+      }
     }
 
     //make an instance of ball
@@ -131,6 +137,8 @@
 
       //change co-ordinates for the next frame
       b.Move();
+
+      //b.rotate(0.1);
 
       //restart the method
       window.requestAnimationFrame(repeatme);
