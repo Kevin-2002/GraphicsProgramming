@@ -44,8 +44,22 @@
         //calculate points of contact
         var feta = Math.PI / 4;
         var spin = 0.5;
-        var xOC = (this.r * Math.cos(feta)) + this.x;
-        var yOC = (this.r * Math.sin(feta)) + this.y;
+
+        //find point of contact for bottom right corner
+        var xOC1 = (this.r * Math.cos(feta)) + this.x;
+        var yOC1 = (this.r * Math.sin(feta)) + this.y;
+
+        //find point of contact for bottom left corner
+        var xOC2 = (-this.r * Math.cos(feta)) + this.x;
+        var yOC2 = (this.r * Math.sin(feta)) + this.y;
+
+        //find point of contact for top right corner
+        var xOC3 = (this.r * Math.cos(feta)) + this.x;
+        var yOC3 = (-this.r * Math.sin(feta)) + this.y;
+
+        //find point of contact for top left corner
+        var xOC4 = (-this.r * Math.cos(feta)) + this.x;
+        var yOC4 = (-this.r * Math.sin(feta)) + this.y;
 
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
@@ -53,10 +67,27 @@
         ctx.strokeStyle = "red";
         ctx.stroke();
 
-        //move the cursor to the center of the circle
+        //move the cursor to the center of ball
         ctx.moveTo(this.x, this.y);
-        ctx.lineTo(xOC, yOC);
-        ctx.stroke();        
+
+        //draw the to bottom right corner
+        ctx.lineTo(xOC1, yOC1);
+        ctx.stroke();
+
+        //draw the to bottom left corner
+        ctx.moveTo(this.x, this.y);//reset cursor
+        ctx.lineTo(xOC2, yOC2);
+        ctx.stroke();
+
+        //draw the to top right corner
+        ctx.moveTo(this.x, this.y);//reset cursor
+        ctx.lineTo(xOC3, yOC3);
+        ctx.stroke();
+
+        //draw the to top left corner
+        ctx.moveTo(this.x, this.y);//reset cursor
+        ctx.lineTo(xOC4, yOC4);
+        ctx.stroke();
       }
 
       Move() {
