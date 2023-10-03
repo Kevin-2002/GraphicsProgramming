@@ -44,6 +44,7 @@
         // Draw the ball (stroked, not filled).
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);//radius 3
+        ctx.strokeStyle = "red";
         ctx.stroke();
       }
 
@@ -53,19 +54,30 @@
         this.y += this.ySpeed;
 
         // If the ball hits the bottom or the top of the canvas (radius accounted for).
-        if (this.y == 297 || this.y == 3) {
+        if (this.y == (300 - this.r) || this.y == (0 + this.r)) {
           this.ySpeed *= -1;
         }
 
         //if the ball hits either side of the canvas (radius accounted for)
-        if (this.x == 597 || this.x == 3) {
+        if (this.x == (600 - this.r) || this.x == (0 + this.r)) {
           this.xSpeed *= -1;
         }
+      }
+
+      resize(r) {
+        this.r = r;
+
+        //change the new start position to account for the new radius to keep it inside the canvas
+        this.x = r;
+        this.y = r;
       }
     }
 
     //make an instance of ball
     const b = new ball(50, 10, 3, 1, 1);//x value, y value, radius, ySpeed & xSpeed passed in
+
+    //resize the ball
+    b.resize(30);
 
     // A function to repeat every time the animation loops.
     function repeatme() {
