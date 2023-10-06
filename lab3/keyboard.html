@@ -3,23 +3,24 @@
 <html>
 
 <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-  <head>
-    <meta charset="UTF-8">
-    <title>Canvas</title>
 
-    <style type="text/css">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas</title>
+
+	<style type="text/css">
 		canvas {
-			border: 1px solid grey; 
+			border: 1px solid grey;
 		}
-    </style>
+	</style>
 
-  </head>
+</head>
 
-  <body>
+<body>
 
-    <canvas id="canvas-for-ball"></canvas>
+	<canvas id="canvas-for-ball" height="600" width="600"></canvas>
 
-    <script type="text/javascript">
+	<script type="text/javascript">
 		// Gets a handle to the element with id canvasOne.
 		var canvas = document.getElementById("canvas-for-ball");
 		// Get a 2D context for the canvas.
@@ -27,29 +28,160 @@
 		// Make the fill style red.
 		ctx.fillStyle = "rgb(255, 0, 0)";
 
+		//from lab2
+		class ball {
+			constructor(x, y, r, xSpeed, ySpeed) {
+				//constructor variables
+				this.x = x;
+				this.y = y;
+				this.r = r;
+				this.xSpeed = xSpeed;
+				this.ySpeed = ySpeed;
+
+				//other object variables
+				this.angle1 = Math.PI / 4;
+				this.angle2 = (Math.PI * 3) / 4;
+				this.angle3 = (Math.PI * 5) / 4;
+				this.angle4 = (Math.PI * 7) / 4;
+				this.spin = 0.1;
+			}
+
+			//functions
+			Draw() {
+				//calculate points of contact for corners of circle
+				//find point of contact for bottom right corner
+				var xOC1 = (this.r * Math.cos(this.angle1)) + this.x;
+				var yOC1 = (this.r * Math.sin(this.angle1)) + this.y;
+
+				//find point of contact for bottom left corner
+				var xOC2 = (this.r * Math.cos(this.angle2)) + this.x;
+				var yOC2 = (this.r * Math.sin(this.angle2)) + this.y;
+
+				//find point of contact for top right corner
+				var xOC3 = (this.r * Math.cos(this.angle3)) + this.x;
+				var yOC3 = (this.r * Math.sin(this.angle3)) + this.y;
+
+				//find point of contact for top left corner
+				var xOC4 = (this.r * Math.cos(this.angle4)) + this.x;
+				var yOC4 = (this.r * Math.sin(this.angle4)) + this.y;
+
+				// Draw the ball (stroked, not filled).
+				ctx.beginPath();
+				ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+				ctx.strokeStyle = "red";
+				ctx.stroke();
+
+				//move the cursor to the center of ball
+				ctx.moveTo(this.x, this.y);
+
+				//draw the to bottom right corner
+				ctx.lineTo(xOC1, yOC1);
+				ctx.stroke();
+
+				//draw the to bottom left corner
+				ctx.moveTo(this.x, this.y);//reset cursor
+				ctx.lineTo(xOC2, yOC2);
+				ctx.stroke();
+
+				//draw the to top right corner
+				ctx.moveTo(this.x, this.y);//reset cursor
+				ctx.lineTo(xOC3, yOC3);
+				ctx.stroke();
+
+				//draw the to top left corner
+				ctx.moveTo(this.x, this.y);//reset cursor
+				ctx.lineTo(xOC4, yOC4);
+				ctx.stroke();
+
+			}
+
+			Move() {
+				// Update the x and y location.
+				this.x += this.xSpeed;
+				this.y += this.ySpeed;
+
+				// If the ball hits the bottom or the top of the canvas (radius accounted for).
+				if (this.y == (canvas.clientHeight - this.r) || this.y == (0 + this.r)) {
+					//change direction of movement and rotation
+					this.ySpeed *= -1;
+					this.spin *= -1;
+				}
+				
+				//if the ball hits either side of the canvas (radius accounted for)
+				if (this.x == (canvas.clientWidth - this.r) || this.x == (0 + this.r)) {
+					this.xSpeed *= -1;
+					this.spin *= -1;
+				}
+			}
+
+			resize(r) {
+				this.r = r;
+
+				//change the new start position to account for the new radius to keep it inside the canvas
+				this.x = r;
+				this.y = r;
+			}
+
+			rotate() {
+				//for xOC1&4
+				this.angle1 += this.spin;
+				this.angle2 += this.spin;
+				this.angle3 += this.spin;
+				this.angle4 += this.spin;
+			}
+		}
+
+		//make an instance of ball
+		const b = new ball(50, 10, 3, 1, 1);//x value, y value, radius, ySpeed & xSpeed passed in
+
+		//resize the ball
+		b.resize(30);
+
+		// A function to repeat every time the animation loops.
+		function repeatme() {
+			//clear the frame before repeating
+			ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+			//draw the ball
+			b.Draw();
+
+			//change co-ordinates for the next frame
+			b.Move();
+
+			//start the rotation
+			b.rotate();
+
+			//restart the method
+			window.requestAnimationFrame(repeatme);
+		}
+
+		// Get the animation going.
+		repeatme();
+
+
 		// Add a Javascript event listener to the keypress event.
-		window.addEventListener("keypress", function(event) { 
+		window.addEventListener("keypress", function (event) {
 			// Just log the event to the console.
 			console.log(event);
 		});
 
 		//keypresses with jQuery
-		$(document.body).on('keydown', function(e) {
+		$(document.body).on('keydown', function (e) {
 			console.log(e.which);
 			switch (e.which) {
-			// key code for left arrow
-			case 37:
-				console.log('left arrow key pressed!');
-				break;
+				// key code for left arrow
+				case 37:
+					console.log('left arrow key pressed!');
+					break;
 
-			// key code for right arrow
-			case 39:
-				console.log('right arrow key pressed!');
-				break;
+				// key code for right arrow
+				case 39:
+					console.log('right arrow key pressed!');
+					break;
 			}
 		});
-    </script>
+	</script>
 
-  </body>
+</body>
 
 </html>
