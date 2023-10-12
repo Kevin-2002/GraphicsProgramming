@@ -154,6 +154,8 @@
 					case 40:
 						this.y += 20;
 						break;
+					case event.pageY:
+						this.y = event.pageY;
 				}
 			}
 		}
@@ -164,7 +166,7 @@
 
 		//make an instance of paddle
 		const p1 = new paddle(20, 20, 10, 60);//params: x, y, width & height
-		const p2 = new paddle(580, 580, 10, 60);//params: x, y, width & height
+		const p2 = new paddle(canvas.height - 20, 20, 10, 60);//params: x, y, width & height
 
 		//resize the ball
 		b.resize(30);
@@ -214,6 +216,7 @@
 				case 38:
 					console.log("up");
 					p1.move(e.which);
+					p2.move(e.which);
 					break;
 
 				// key code for right arrow
@@ -224,8 +227,16 @@
 				case 40:
 					console.log("down");
 					p1.move(e.which);
+					p2.move(e.which);
 					break;
 			}
+		});
+
+		//add eventlistener for mouse on screen
+		window.addEventListener("mousemove", function (event) {
+			p1.move(event.pageY);
+			p2.move(event.pageY);
+			console.log(event.pageY);
 		});
 	</script>
 
