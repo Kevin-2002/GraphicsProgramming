@@ -106,7 +106,7 @@
 					this.ySpeed *= -1;
 					this.spin *= -1;
 				}
-				
+
 				//if the ball hits either side of the canvas (radius accounted for)
 				if (this.x == (canvas.clientWidth - this.r) || this.x == (0 + this.r)) {
 					this.xSpeed *= -1;
@@ -131,8 +131,40 @@
 			}
 		}
 
+
+		//paddle class
+		class paddle {
+			constructor(x, y, width, height) {
+				this.width = width;
+				this.height = height;
+				this.x = x;
+				this.y = y;
+			}
+
+			draw() {
+				ctx.strokeStyle = "black";
+				ctx.strokeRect(this.x, this.y, this.width, this.height);
+			}
+
+			move(whichKey) {
+				switch (whichKey) {
+					case 38:
+						this.y -= 20;
+						break;
+					case 40:
+						this.y += 20;
+						break;
+				}
+			}
+		}
+
+
 		//make an instance of ball
-		const b = new ball(50, 10, 3, 1, 1);//x value, y value, radius, ySpeed & xSpeed passed in
+		const b = new ball(50, 10, 3, 1, 1);//params: x value, y value, radius, xSpeed & ySpeed
+
+		//make an instance of paddle
+		const p1 = new paddle(20, 20, 10, 60);//params: x, y, width & height
+		const p2 = new paddle(580, 580, 10, 60);//params: x, y, width & height
 
 		//resize the ball
 		b.resize(30);
@@ -141,6 +173,10 @@
 		function repeatme() {
 			//clear the frame before repeating
 			ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+			//draw paddle
+			p1.draw();
+			p2.draw();
 
 			//draw the ball
 			b.Draw();
@@ -174,9 +210,20 @@
 					console.log('left arrow key pressed!');
 					break;
 
+				// up arrow
+				case 38:
+					console.log("up");
+					p1.move(e.which);
+					break;
+
 				// key code for right arrow
 				case 39:
 					console.log('right arrow key pressed!');
+					break;
+				// down arrow
+				case 40:
+					console.log("down");
+					p1.move(e.which);
 					break;
 			}
 		});
