@@ -103,7 +103,8 @@
 				//If the ball hits the bottom or the top of the canvas (radius accounted for).
 				if (this.y >= (canvas.clientHeight - this.r) || this.y <= (0 + this.r)) {
 					//change direction of movement and rotation
-					this.ySpeed *= -1;
+					this.y = canvas.clientHeight - this.r;
+					this.ySpeed *= -0.9;
 					this.spin *= -1;
 				}
 
@@ -134,7 +135,7 @@
 
 			gravity() {
 				this.ySpeed += 0.1;
-				
+				console.log(this.ySpeed);
 			}
 		}
 
