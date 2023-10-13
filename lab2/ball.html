@@ -30,7 +30,7 @@
     // Get a 2D context for the canvas.
     var ctx = canvas.getContext("2d");
 
-    class ball {
+    class Ball {
       constructor(x, y, r, xSpeed, ySpeed) {
         //constructor variables
         this.x = x;
@@ -48,7 +48,7 @@
       }
 
       //functions
-      Draw() {
+      draw() {
         //calculate points of contact for corners of circle
         //find point of contact for bottom right corner
         var xOC1 = (this.r * Math.cos(this.angle1)) + this.x;
@@ -96,7 +96,7 @@
 
       }
 
-      Move() {
+      move() {
         // Update the x and y location.
         this.x += this.xSpeed;
         this.y += this.ySpeed;
@@ -133,7 +133,7 @@
     }
 
     //make an instance of ball
-    const b = new ball(50, 10, 3, 1, 1);//x value, y value, radius, ySpeed & xSpeed passed in
+    const b = new Ball(50, 10, 3, 1, 1);//x value, y value, radius, ySpeed & xSpeed passed in
 
     //resize the ball
     b.resize(30);
@@ -144,10 +144,10 @@
       ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
 
       //draw the ball
-      b.Draw();
+      b.draw();
 
       //change co-ordinates for the next frame
-      b.Move();
+      b.move();
 
       //start the rotation
       b.rotate();
