@@ -29,7 +29,7 @@
 		ctx.fillStyle = "rgb(255, 0, 0)";
 
 		//from lab2
-		class ball {
+		class Ball {
 			constructor(x, y, r, xSpeed, ySpeed) {
 				//constructor variables
 				this.x = x;
@@ -47,7 +47,7 @@
 			}
 
 			//functions
-			Draw() {
+			draw() {
 				//calculate points of contact for corners of circle
 				//find point of contact for bottom right corner
 				var xOC1 = (this.r * Math.cos(this.angle1)) + this.x;
@@ -95,7 +95,7 @@
 
 			}
 
-			Move() {
+			move() {
 				// Update the x and y location.
 				this.x += this.xSpeed;
 				this.y += this.ySpeed;
@@ -108,7 +108,7 @@
 				}
 
 				//if the ball hits either side of the canvas (radius accounted for)
-				if (this.x == (canvas.clientWidth - this.r) || this.x == (0 + this.r)) {
+				if (this.x >= (canvas.clientWidth - this.r) || this.x <= (0 + this.r)) {
 					this.xSpeed *= -1;
 					this.spin *= -1;
 				}
@@ -133,7 +133,7 @@
 
 
 		//paddle class
-		class paddle {
+		class Paddle {
 			constructor(x, y, width, height) {
 				this.width = width;
 				this.height = height;
@@ -148,25 +148,29 @@
 
 			move(whichKey) {
 				switch (whichKey) {
+					//up
 					case 38:
 						this.y -= 20;
 						break;
+					//down
 					case 40:
 						this.y += 20;
 						break;
+					//mose moved
 					case event.pageY:
 						this.y = event.pageY;
+						break;
 				}
 			}
 		}
 
 
 		//make an instance of ball
-		const b = new ball(50, 10, 3, 1, 1);//params: x value, y value, radius, xSpeed & ySpeed
+		const b = new Ball(50, 10, 3, 1, 1);//params: x value, y value, radius, xSpeed & ySpeed
 
 		//make an instance of paddle
-		const p1 = new paddle(20, 20, 10, 60);//params: x, y, width & height
-		const p2 = new paddle(canvas.height - 20, 20, 10, 60);//params: x, y, width & height
+		const p1 = new Paddle(20, 20, 10, 60);//params: x, y, width & height
+		const p2 = new Paddle(canvas.height - 20, 20, 10, 60);//params: x, y, width & height
 
 		//resize the ball
 		b.resize(30);
@@ -181,10 +185,10 @@
 			p2.draw();
 
 			//draw the ball
-			b.Draw();
+			b.draw();
 
 			//change co-ordinates for the next frame
-			b.Move();
+			b.move();
 
 			//start the rotation
 			b.rotate();
@@ -229,6 +233,17 @@
 					p1.move(e.which);
 					p2.move(e.which);
 					break;
+				//a
+				case 65:
+					//change xSpeed
+					b.xSpeed *= 1.3;
+					console.log(b.xSpeed);
+					break;
+				//s
+				case 83:
+					b.xSpeed *= 0.7;
+					console.log(b.xSpeed)
+					break;
 			}
 		});
 
@@ -236,7 +251,7 @@
 		window.addEventListener("mousemove", function (event) {
 			p1.move(event.pageY);
 			p2.move(event.pageY);
-			console.log(event.pageY);
+			//console.log(event.pageY);
 		});
 	</script>
 
