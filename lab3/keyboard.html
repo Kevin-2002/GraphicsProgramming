@@ -21,11 +21,11 @@
 	<canvas id="canvas-for-ball" height="600" width="600"></canvas>
 
 	<script type="text/javascript">
-		// Gets a handle to the element with id canvasOne.
+		//Gets a handle to the element with id canvasOne.
 		var canvas = document.getElementById("canvas-for-ball");
-		// Get a 2D context for the canvas.
+		//Get a 2D context for the canvas.
 		var ctx = canvas.getContext("2d");
-		// Make the fill style red.
+		//Make the fill style red.
 		ctx.fillStyle = "rgb(255, 0, 0)";
 
 		//from lab2
@@ -96,11 +96,11 @@
 			}
 
 			move() {
-				// Update the x and y location.
+				//Update the x and y location.
 				this.x += this.xSpeed;
 				this.y += this.ySpeed;
 
-				// If the ball hits the bottom or the top of the canvas (radius accounted for).
+				//If the ball hits the bottom or the top of the canvas (radius accounted for).
 				if (this.y == (canvas.clientHeight - this.r) || this.y == (0 + this.r)) {
 					//change direction of movement and rotation
 					this.ySpeed *= -1;
@@ -175,7 +175,7 @@
 		//resize the ball
 		b.resize(30);
 
-		// A function to repeat every time the animation loops.
+		//A function to repeat every time the animation loops.
 		function repeatme() {
 			//clear the frame before repeating
 			ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
@@ -197,13 +197,13 @@
 			window.requestAnimationFrame(repeatme);
 		}
 
-		// Get the animation going.
+		//Get the animation going.
 		repeatme();
 
 
-		// Add a Javascript event listener to the keypress event.
+		//Add a Javascript event listener to the keypress event.
 		window.addEventListener("keypress", function (event) {
-			// Just log the event to the console.
+			//Just log the event to the console.
 			console.log(event);
 		});
 
@@ -211,23 +211,23 @@
 		$(document.body).on('keydown', function (e) {
 			console.log(e.which);
 			switch (e.which) {
-				// key code for left arrow
+				//key code for left arrow
 				case 37:
 					console.log('left arrow key pressed!');
 					break;
 
-				// up arrow
+				//up arrow
 				case 38:
 					console.log("up");
 					p1.move(e.which);
 					p2.move(e.which);
 					break;
 
-				// key code for right arrow
+				//key code for right arrow
 				case 39:
 					console.log('right arrow key pressed!');
 					break;
-				// down arrow
+				//down arrow
 				case 40:
 					console.log("down");
 					p1.move(e.which);
