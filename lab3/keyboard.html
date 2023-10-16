@@ -18,6 +18,7 @@
 
 <body>
 
+	<h1>Kevin McShane</h1>
 	<canvas id="canvas-for-ball" height="600" width="600"></canvas>
 
 	<script type="text/javascript">
@@ -28,6 +29,7 @@
 		//Make the fill style red.
 		ctx.fillStyle = "rgb(255, 0, 0)";
 
+		//CLASS OBJECTS
 		//from lab2
 		class Ball {
 			constructor(x, y, r, xSpeed, ySpeed) {
@@ -92,7 +94,6 @@
 				ctx.moveTo(this.x, this.y);//reset cursor
 				ctx.lineTo(xOC4, yOC4);
 				ctx.stroke();
-
 			}
 
 			move() {
@@ -102,19 +103,28 @@
 
 				//If the ball hits the bottom or the top of the canvas (radius accounted for).
 				if (this.y >= (canvas.clientHeight - this.r) || this.y <= (0 + this.r)) {
-					//change direction of movement and rotation
+
+					//give the ball enough speed to bounce away and not clip into the boundry
 					this.y = canvas.clientHeight - this.r;
+
+					//change direction of movement and rotation and only bounce back with 90% of the speed
 					this.ySpeed *= -0.9;
 					this.spin *= -1;
 				}
 
 				//if the ball hits either side of the canvas (radius accounted for)
 				if (this.x >= (canvas.clientWidth - this.r) || this.x <= (0 + this.r)) {
+					//change direction of movement and rotation
 					this.xSpeed *= -1;
 					this.spin *= -1;
 				}
 
 				this.gravity();
+			}
+
+			gravity() {
+				this.ySpeed += 0.1;
+				//console.log(this.ySpeed);
 			}
 
 			resize(r) {
@@ -133,10 +143,7 @@
 				this.angle4 += this.spin;
 			}
 
-			gravity() {
-				this.ySpeed += 0.1;
-				console.log(this.ySpeed);
-			}
+
 		}
 
 
@@ -173,16 +180,18 @@
 		}
 
 
+		//DECLARATIONS
 		//make an instance of ball
 		const b = new Ball(50, 10, 3, 1, 1);//params: x value, y value, radius, xSpeed & ySpeed
 
 		//make an instance of paddle
 		const p1 = new Paddle(20, 20, 10, 60);//params: x, y, width & height
-		const p2 = new Paddle(canvas.height - 20, 20, 10, 60);//params: x, y, width & height
+		const p2 = new Paddle(canvas.width - 20, 20, 10, 60);//params: x, y, width & height
 
 		//resize the ball
 		b.resize(30);
 
+		//FUNCTIONS
 		//A function to repeat every time the animation loops.
 		function repeatme() {
 			//clear the frame before repeating
@@ -209,10 +218,11 @@
 		repeatme();
 
 
+		//EVENT LISTENERS
 		//Add a Javascript event listener to the keypress event.
 		window.addEventListener("keypress", function (event) {
 			//Just log the event to the console.
-			console.log(event);
+			//console.log(event);
 		});
 
 		//keypresses with jQuery
@@ -243,22 +253,38 @@
 					break;
 				//a
 				case 65:
-					//change xSpeed
+					//increase xSpeed
 					b.xSpeed *= 1.3;
-					console.log(b.xSpeed);
+					//console.log(b.xSpeed);
+					break;
+				//e
+				case 69:
+					//half spin speed
+					b.spin *= 0.5;
+					console.log(b.spin);
+					break;
+				//q
+				case 81:
+					//bring ball back to start height
+					b.y = b.r;
 					break;
 				//s
 				case 83:
+					//decrease Xspeed
 					b.xSpeed *= 0.7;
-					console.log(b.xSpeed)
+					//console.log(b.xSpeed)
 					break;
+				case 87:
+					//double spin speed
+					b.spin *= 2;
+					console.log(b.spin);
 			}
 		});
 
 		//add eventlistener for mouse on screen
 		window.addEventListener("mousemove", function (event) {
 			p1.move(event.pageY);
-			p2.move(event.pageY);
+			//p2.move(event.pageY);
 			//console.log(event.pageY);
 		});
 	</script>
