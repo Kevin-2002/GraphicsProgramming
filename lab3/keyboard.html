@@ -29,6 +29,13 @@
 		//Make the fill style red.
 		ctx.fillStyle = "rgb(255, 0, 0)";
 
+		//offset
+		var canvasPosition = {
+			x: canvas.offsetLeft,
+			y: canvas.offsetTop
+		}
+
+
 		//CLASS OBJECTS
 		//from lab2
 		class Ball {
@@ -219,6 +226,7 @@
 
 
 		//EVENT LISTENERS
+
 		//Add a Javascript event listener to the keypress event.
 		window.addEventListener("keypress", function (event) {
 			//Just log the event to the console.
@@ -283,9 +291,13 @@
 
 		//add eventlistener for mouse on screen
 		window.addEventListener("mousemove", function (event) {
+			/*var mouse = {
+				x: event.pageX - canvasPosition.x,
+				y: event.pageY - canvasPosition.y
+			}*/
 			p1.move(event.pageY);
 			//p2.move(event.pageY);
-			//console.log(event.pageY);
+			//console.log(mouse.y);
 		});
 	</script>
 
