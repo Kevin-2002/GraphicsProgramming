@@ -178,10 +178,6 @@
 					case 40:
 						this.y += 20;
 						break;
-					//mose moved
-					case event.pageY:
-						this.y = event.pageY;
-						break;
 				}
 			}
 		}
@@ -291,13 +287,12 @@
 
 		//add eventlistener for mouse on screen
 		window.addEventListener("mousemove", function (event) {
-			/*var mouse = {
+			var mouse = {
 				x: event.pageX - canvasPosition.x,
 				y: event.pageY - canvasPosition.y
-			}*/
-			p1.move(event.pageY);
-			//p2.move(event.pageY);
-			//console.log(mouse.y);
+			}
+			//set the middle of the paddle to where the mouse is without offset
+			p1.y = mouse.y - (p1.height / 2);
 		});
 	</script>
 
