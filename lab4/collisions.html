@@ -214,6 +214,8 @@
 			//start the rotation
 			b.rotate();
 
+			collisionDetection();
+
 			//restart the method
 			window.requestAnimationFrame(repeatme);
 		}
@@ -221,6 +223,22 @@
 		//Get the animation going.
 		repeatme();
 
+		//general methods
+		function collisionDetection() {
+			const sumOfRadius = p1.r + b.r;
+			var distanceBetweenCenterPoints = Math.sqrt(Math.pow(p1.x - b.x), 2);
+
+			if(distanceBetweenCenterPoints > sumOfRadius){
+				console.log(distanceBetweenCenterPoints);
+				//console.log(sumOfRadius);
+				console.log("no collission");
+			}
+			else if(distanceBetweenCenterPoints <= sumOfRadius){
+				console.log(distanceBetweenCenterPoints);
+				//console.log(sumOfRadius);
+				console.log("collission");
+			}
+		}
 
 		//EVENT LISTENERS
 
