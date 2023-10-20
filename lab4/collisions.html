@@ -293,7 +293,10 @@
 				y: event.pageY - canvasPosition.y
 			}
 			//set the middle of the paddle to where the mouse is without offset
-			p1.y = mouse.y - (p1.r / 2);
+			p1.y = mouse.y;
+
+			//chack that circle x, y and mouse x, y are the same 
+			//console.log(mouse.y, p1.y);
 		});
 	</script>
 
