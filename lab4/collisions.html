@@ -151,23 +151,22 @@
 				this.angle3 += this.spin;
 				this.angle4 += this.spin;
 			}
-
-
 		}
 
 
 		//paddle class
 		class Paddle {
-			constructor(x, y, width, height) {
-				this.width = width;
-				this.height = height;
+			constructor(x, y, r) {
 				this.x = x;
 				this.y = y;
+				this.r = r;
 			}
 
 			draw() {
 				ctx.strokeStyle = "black";
-				ctx.strokeRect(this.x, this.y, this.width, this.height);
+				ctx.beginPath();
+				ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
+				ctx.stroke();
 			}
 
 			move(whichKey) {
@@ -190,8 +189,8 @@
 		const b = new Ball(50, 10, 3, 1, 1);//params: x value, y value, radius, xSpeed & ySpeed
 
 		//make an instance of paddle
-		const p1 = new Paddle(20, 20, 10, 60);//params: x, y, width & height
-		const p2 = new Paddle(canvas.width - 20, 20, 10, 60);//params: x, y, width & height
+		const p1 = new Paddle(20, 20, 15);//params: x, y & r
+		const p2 = new Paddle(canvas.width - 20, 20, 15);//params: x, y & r
 
 		//resize the ball
 		b.resize(30);
@@ -294,7 +293,7 @@
 				y: event.pageY - canvasPosition.y
 			}
 			//set the middle of the paddle to where the mouse is without offset
-			p1.y = mouse.y - (p1.height / 2);
+			p1.y = mouse.y - (p1.r / 2);
 		});
 	</script>
 
