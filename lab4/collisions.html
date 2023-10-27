@@ -229,13 +229,10 @@
 			var distanceBetweenCenterS = Math.sqrt(Math.pow((p1.x - b.x), 2) + Math.pow((p1.y - b.y), 2));
 			//var distanceBetweenCenterY = Math.sqrt(Math.pow((p1.y - b.y), 2));			
 
-			if (distanceBetweenCenterS > sumOfRadius) {
-				console.log("no collission");
-			}
-			else if (distanceBetweenCenterS <= sumOfRadius) {
-				console.log(sumOfRadius);
-				console.log(distanceBetweenCenterS);
-				console.log("collission");
+			if (distanceBetweenCenterS <= sumOfRadius) {
+				//output message
+				ctx.font = "40px ariel black";
+				ctx.strokeText("collision detected", 200, canvas.clientHeight/2);
 			}
 		}
 
