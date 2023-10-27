@@ -51,7 +51,7 @@
 				this.angle3 = (Math.PI * 5) / 4;
 				this.angle4 = (Math.PI * 7) / 4;
 				this.spin = 0.1;
-				this.mass = r/2;
+				this.mass = r / 2;
 			}
 
 			//functions
@@ -141,7 +141,7 @@
 				this.r = r;
 
 				//change the new start position to account for the new radius to keep it inside the canvas
-				this.x = r;
+				this.x = r + p1.r*3;//get it passed the first paddle
 				this.y = r;
 			}
 
@@ -163,7 +163,7 @@
 				this.r = r;
 
 				//other variables
-				this.mass = r/2;
+				this.mass = r / 2;
 			}
 
 			draw() {
@@ -235,15 +235,21 @@
 			var distanceBetweenCentersPaddle2 = Math.sqrt(Math.pow((p2.x - b.x), 2) + Math.pow((p2.y - b.y), 2));
 
 			//formula for actual collisions
-			//v1 = (u1*(m1-m2)+2(m2*u2))/(m1+m2)
-			const collisionReactionPaddle1 = (0*(p1.mass-b.mass)+2*(b.mass*b.ySpeed))/(p1.mass+b.mass);//paddle is obj1 ball is obj2
+			//v1 = (u1*(m1-m2)+2*(m2*u2))/(m1+m2)
+			const collisionReactionPaddle1 = (0 * (p1.mass - b.mass) + 2 * (b.mass * b.ySpeed)) / (p1.mass + b.mass);//paddle is obj1 ball is obj2
+			const collisionReactionPaddle2 = (0 * (p2.mass - b.mass) + 2 * (b.mass * b.ySpeed)) / (p2.mass + b.mass);//paddle is obj1 ball is obj2
+			//const collisionReactionBall = (b.ySpeed * (b.mass - p1.mass) + 2 * (p1.mass * p1.ySpeed)) / (b.mass + p1.mass);//ball obj1, paddle obj2
 
 			if (distanceBetweenCentersPaddle1 <= sumOfRadiusPaddle1 || distanceBetweenCentersPaddle2 <= sumOfRadiusPaddle2) {
 				//output message
 				ctx.font = "40px ariel black";
-				ctx.strokeText("collision detected", 200, canvas.clientHeight/2);
+				ctx.strokeText("collision detected", 200, canvas.clientHeight / 2);
+
 
 				p1.y += collisionReactionPaddle1;
+				p2.y += collisionReactionPaddle1;
+				//console.log(collisionReactionBall);
+				//b.y += collisionReactionBall;
 			}
 		}
 
