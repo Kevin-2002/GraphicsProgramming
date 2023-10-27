@@ -51,6 +51,7 @@
 				this.angle3 = (Math.PI * 5) / 4;
 				this.angle4 = (Math.PI * 7) / 4;
 				this.spin = 0.1;
+				this.mass = r/2;
 			}
 
 			//functions
@@ -160,6 +161,9 @@
 				this.x = x;
 				this.y = y;
 				this.r = r;
+
+				//other variables
+				this.mass = r/2;
 			}
 
 			draw() {
