@@ -229,16 +229,21 @@
 
 		//general methods
 		function collisionDetection() {
-			const sumOfRadius = p1.r + b.r;
-			const sumOfRadius2 = p2.r + b.r;
-			var distanceBetweenCenters = Math.sqrt(Math.pow((p1.x - b.x), 2) + Math.pow((p1.y - b.y), 2));
-			var distanceBetweenCenters2 = Math.sqrt(Math.pow((p2.x - b.x), 2) + Math.pow((p2.y - b.y), 2));
-			//var distanceBetweenCenterY = Math.sqrt(Math.pow((p1.y - b.y), 2));			
+			const sumOfRadiusPaddle1 = p1.r + b.r;
+			const sumOfRadiusPaddle2 = p2.r + b.r;
+			var distanceBetweenCentersPaddle1 = Math.sqrt(Math.pow((p1.x - b.x), 2) + Math.pow((p1.y - b.y), 2));
+			var distanceBetweenCentersPaddle2 = Math.sqrt(Math.pow((p2.x - b.x), 2) + Math.pow((p2.y - b.y), 2));
 
-			if (distanceBetweenCenters <= sumOfRadius || distanceBetweenCenters2 <= sumOfRadius2) {
+			//formula for actual collisions
+			//v1 = (u1*(m1-m2)+2(m2*u2))/(m1+m2)
+			const collisionReactionPaddle1 = (0*(p1.mass-b.mass)+2*(b.mass*b.ySpeed))/(p1.mass+b.mass);//paddle is obj1 ball is obj2
+
+			if (distanceBetweenCentersPaddle1 <= sumOfRadiusPaddle1 || distanceBetweenCentersPaddle2 <= sumOfRadiusPaddle2) {
 				//output message
 				ctx.font = "40px ariel black";
 				ctx.strokeText("collision detected", 200, canvas.clientHeight/2);
+
+				p1.y += collisionReactionPaddle1;
 			}
 		}
 
