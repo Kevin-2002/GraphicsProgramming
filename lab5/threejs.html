@@ -29,7 +29,11 @@
 
         camera.position.z = 5;
 
-        
+        var repeatMe = function () {
+            renderer.render(scene, camera);
+            requestAnimationFrame(repeatMe);
+        };
+        repeatMe();
     </script>
 </body>
 
