@@ -22,22 +22,35 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        var geometry = new THREE.TetrahedronGeometry();
+        //set geometry & material
+        var geometry = new THREE.TetrahedronGeometry( 1, 0 );
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        material.wireframe = true;
+
+        //add a variable to make our shape
         var tetraherdon = new THREE.Mesh(geometry, material);
         scene.add(tetraherdon);
 
+        //change camera position so we can see the shape
         camera.position.z = 5;
 
+        //repeat function
         var repeatMe = function () {
+            //render
             renderer.render(scene, camera);
-            requestAnimationFrame(repeatMe);
 
             //rotate
             tetraherdon.rotation.x += 0.1;
             tetraherdon.rotation.y += 0.1;
+
+            requestAnimationFrame(repeatMe);
         };
+        //get the animation going
         repeatMe();
+
+
+
+
     </script>
 </body>
 
