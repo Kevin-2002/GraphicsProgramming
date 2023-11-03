@@ -23,13 +23,18 @@
         document.body.appendChild(renderer.domElement);
 
         //set geometry & material
-        var geometry = new THREE.TetrahedronGeometry( 1, 0 );
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var geometry = new THREE.TetrahedronGeometry(1, 1);
+        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
         //material.wireframe = true;
 
         //add a variable to make our shape
         var tetraherdon = new THREE.Mesh(geometry, material);
         scene.add(tetraherdon);
+
+        //lighting
+        var spotLight = new THREE.SpotLight(0xffffff);
+        spotLight.position.set(1, 0.5, 1);
+        scene.add(spotLight);
 
         //change camera position so we can see the shape
         camera.position.z = 5;
