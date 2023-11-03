@@ -24,7 +24,8 @@
 
         //set geometry & material
         var geometry = new THREE.TetrahedronGeometry(1, 1);
-        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        //var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
         //material.wireframe = true;
 
         //add a variable to make our shape
@@ -41,9 +42,18 @@
 
         //repeat function
         var repeatMe = function () {
+            var xSpeed = 0.1;
+
             //render
             renderer.render(scene, camera);
 
+            //move from left to right
+            if (tetraherdon.position.x >= 16 || tetraherdon.position.x <= -16){
+                xSpeed *= -1;
+            }
+            tetraherdon.position.x += xSpeed;
+            console.log(tetraherdon.position.x);
+            
             //rotate
             tetraherdon.rotation.x += 0.1;
             tetraherdon.rotation.y += 0.1;
