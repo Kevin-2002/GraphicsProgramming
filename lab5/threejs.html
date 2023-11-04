@@ -54,11 +54,22 @@
             }
 
             move() {
+                //starts in the middle of screen at x=0
+                //hits right window at 3.3 to 3.4
+                if (this.tetraherdon.position.x >= 7 || this.tetraherdon.position.x <= -7) {
+                    this.xSpeed *= -1;
+                }
+
                 //move the object
                 this.tetraherdon.position.x += this.xSpeed;
                 console.log(this.tetraherdon.position.x);
             }
 
+            rotate(){
+                //rotate
+                this.tetraherdon.rotation.x += this.xRotationSpeed;
+                this.tetraherdon.rotation.y += this.yRotationSpeed;
+            }
         }
 
         //declare instance of tetrahedron
@@ -69,20 +80,9 @@
             //render
             renderer.render(scene, camera);
 
-            //starts in the middle of screen at x=0
-            //hits right window at 3.3 to 3.4
-            if (tetraherdon.position.x >= 7 || tetraherdon.position.x <= -7) {
-                t.xSpeed *= -1;
-            }
-
-            
             t.move();
 
-
-
-            //rotate
-            tetraherdon.rotation.x += t.xRotationSpeed;
-            tetraherdon.rotation.y += t.yRotationSpeed;
+            t.rotate();
 
             requestAnimationFrame(repeatMe);
         };
