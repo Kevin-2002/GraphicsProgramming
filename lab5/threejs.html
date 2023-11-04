@@ -23,7 +23,7 @@
         document.body.appendChild(renderer.domElement);
 
         //set geometry & material
-        var geometry = new THREE.TetrahedronGeometry(1, 1);
+        var geometry = new THREE.TetrahedronGeometry(1, 0);
         var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         //var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
         //material.wireframe = true;
@@ -40,20 +40,25 @@
         //change camera position so we can see the shape
         camera.position.z = 5;
 
+        //variable declarations
+        var xSpeed = 0.1;
+        
         //repeat function
         var repeatMe = function () {
-            var xSpeed = 0.1;
-
             //render
             renderer.render(scene, camera);
 
-            //move from left to right
-            if (tetraherdon.position.x >= 16 || tetraherdon.position.x <= -16){
+            //starts in the middle of screen at x=0
+            //hits right window at 3.3 to 3.4
+            if (tetraherdon.position.x >= 7 || tetraherdon.position.x <= -7) {
                 xSpeed *= -1;
-            }
+            }        
+            
+
             tetraherdon.position.x += xSpeed;
             console.log(tetraherdon.position.x);
             
+
             //rotate
             tetraherdon.rotation.x += 0.1;
             tetraherdon.rotation.y += 0.1;
