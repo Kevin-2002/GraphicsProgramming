@@ -24,8 +24,8 @@
 
         //set geometry & material
         var geometry = new THREE.TetrahedronGeometry(1, 0);
-        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        //var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+        //var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
         //material.wireframe = true;
 
         //add a variable to make our shape
@@ -40,9 +40,30 @@
         //change camera position so we can see the shape
         camera.position.z = 5;
 
-        //variable declarations
-        var xSpeed = 0.1;
-        
+        class tetraherdonObject {
+            constructor(geometry, material, tetraherdon) {
+                //constructor variables
+                this.geometry = geometry;
+                this.material = material;
+                this.tetraherdon = tetraherdon;
+
+                //default variables
+                this.xSpeed = 0.1;
+                this.xRotationSpeed = 0.1;
+                this.yRotationSpeed = 0.1;
+            }
+
+            move() {
+                //move the object
+                this.tetraherdon.position.x += this.xSpeed;
+                console.log(this.tetraherdon.position.x);
+            }
+
+        }
+
+        //declare instance of tetrahedron
+        const t = new tetraherdonObject(geometry, material, tetraherdon);
+
         //repeat function
         var repeatMe = function () {
             //render
@@ -51,17 +72,17 @@
             //starts in the middle of screen at x=0
             //hits right window at 3.3 to 3.4
             if (tetraherdon.position.x >= 7 || tetraherdon.position.x <= -7) {
-                xSpeed *= -1;
-            }        
-            
+                t.xSpeed *= -1;
+            }
 
-            tetraherdon.position.x += xSpeed;
-            console.log(tetraherdon.position.x);
             
+            t.move();
+
+
 
             //rotate
-            tetraherdon.rotation.x += 0.1;
-            tetraherdon.rotation.y += 0.1;
+            tetraherdon.rotation.x += t.xRotationSpeed;
+            tetraherdon.rotation.y += t.yRotationSpeed;
 
             requestAnimationFrame(repeatMe);
         };
