@@ -11,9 +11,13 @@
 
 <body>
     <script type="text/javascript">
-        //add the scene & camera
+        //scene
         var scene = new THREE.Scene();
+
+        //camera
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        //set camera position 
+        camera.position.z = 5;
 
         //use webGL render resources 
         var renderer = new THREE.WebGLRenderer();
@@ -22,40 +26,34 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        //set geometry & material
-        var geometry = new THREE.TetrahedronGeometry(1, 0);
-        //var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-        var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
-        //var material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-        //material.wireframe = true;
-
+        //tetrahedron
+        var geometryTetrahedron = new THREE.TetrahedronGeometry(1, 0);
+        var materialTetrahedon = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
         //add a variable to make our shape
-        var tetraherdon = new THREE.Mesh(geometry, material);
+        var tetraherdon = new THREE.Mesh(geometryTetrahedron, materialTetrahedon);
         scene.add(tetraherdon);
 
         //plane
-        const geometryPlane = new THREE.PlaneGeometry(15, 4);
+        const geometryPlane = new THREE.PlaneGeometry(15, 4);//width, height
         const materialPlane = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
         const plane = new THREE.Mesh(geometryPlane, materialPlane);
         scene.add(plane);
+        //edit position of the plane
         plane.rotation.x += 1.7;
         plane.position.y += -1;
 
         //lighting
         var spotLight = new THREE.SpotLight(0xffffff);
         spotLight.position.set(1, 0.5, 1);
-        spotLight.castShadow = true;
         scene.add(spotLight);
-        
+
         //shadow map
         renderer.shadowMap.enabled = true;
         renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         document.body.appendChild(renderer.domElement);
+        spotLight.castShadow = true;
         tetraherdon.castShadow = true;
         plane.receiveShadow = true;
-        
-        //change camera position so we can see the shape
-        camera.position.z = 5;
 
         class tetraherdonObject {
             constructor(geometry, material, tetraherdon) {
@@ -72,14 +70,13 @@
 
             move() {
                 //starts in the middle of screen at x=0
-                //hits right window at 3.3 to 3.4
+                //hits window at -7 to 7
                 if (this.tetraherdon.position.x >= 7 || this.tetraherdon.position.x <= -7) {
-                    this.xSpeed *= -1;
+                    this.xSpeed *= -1;//change momentum
                 }
 
-                //move the object
+                //move
                 this.tetraherdon.position.x += this.xSpeed;
-                //console.log(this.tetraherdon.position.x);
             }
 
             rotate() {
@@ -90,7 +87,7 @@
         }
 
         //declare instance of tetrahedron
-        const t = new tetraherdonObject(geometry, material, tetraherdon);
+        const t = new tetraherdonObject(geometryTetrahedron, materialTetrahedon, tetraherdon);
 
         //repeat function
         var repeatMe = function () {
@@ -105,10 +102,6 @@
         };
         //get the animation going
         repeatMe();
-
-
-
-
     </script>
 </body>
 
