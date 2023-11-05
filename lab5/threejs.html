@@ -47,10 +47,12 @@
         spotLight.castShadow = true;
         scene.add(spotLight);
         
-        
-
-        
-        
+        //shadow map
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        document.body.appendChild(renderer.domElement);
+        tetraherdon.castShadow = true;
+        plane.receiveShadow = true;
         
         //change camera position so we can see the shape
         camera.position.z = 5;
