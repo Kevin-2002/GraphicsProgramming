@@ -26,17 +26,32 @@
         var geometry = new THREE.TetrahedronGeometry(1, 0);
         //var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+        //var material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
         //material.wireframe = true;
 
         //add a variable to make our shape
         var tetraherdon = new THREE.Mesh(geometry, material);
         scene.add(tetraherdon);
 
+        //plane
+        const geometryPlane = new THREE.PlaneGeometry(15, 4);
+        const materialPlane = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        const plane = new THREE.Mesh(geometryPlane, materialPlane);
+        scene.add(plane);
+        plane.rotation.x += 1.7;
+        plane.position.y += -1;
+
         //lighting
         var spotLight = new THREE.SpotLight(0xffffff);
         spotLight.position.set(1, 0.5, 1);
+        spotLight.castShadow = true;
         scene.add(spotLight);
+        
+        
 
+        
+        
+        
         //change camera position so we can see the shape
         camera.position.z = 5;
 
@@ -62,10 +77,10 @@
 
                 //move the object
                 this.tetraherdon.position.x += this.xSpeed;
-                console.log(this.tetraherdon.position.x);
+                //console.log(this.tetraherdon.position.x);
             }
 
-            rotate(){
+            rotate() {
                 //rotate
                 this.tetraherdon.rotation.x += this.xRotationSpeed;
                 this.tetraherdon.rotation.y += this.yRotationSpeed;
@@ -80,8 +95,8 @@
             //render
             renderer.render(scene, camera);
 
+            //tetrahedron methods
             t.move();
-
             t.rotate();
 
             requestAnimationFrame(repeatMe);
