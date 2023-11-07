@@ -28,10 +28,15 @@
 
         //tetrahedron
         var geometryTetrahedron = new THREE.TetrahedronGeometry(1, 3);
-        var materialTetrahedon = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
+        //material
+        var colour = new THREE.Color(0xff0000);//colour variable for later use
+
+        var materialTetrahedon = new THREE.MeshLambertMaterial({ color: colour });
+
         //add a variable to make our shape
         var tetraherdon = new THREE.Mesh(geometryTetrahedron, materialTetrahedon);
         scene.add(tetraherdon);
+
 
         //plane
         const geometryPlane = new THREE.PlaneGeometry(20, 10);//width, height
@@ -88,7 +93,7 @@
                 //move
                 this.tetraherdon.position.x += this.xSpeed;
                 this.tetraherdon.position.y -= this.ySpeed;
-                console.log(this.tetraherdon.position.y);
+                //console.log(this.tetraherdon.position.y);
             }
 
             rotate() {
@@ -109,11 +114,32 @@
             //tetrahedron methods
             t.move();
             t.rotate();
+            changeColour();
 
             requestAnimationFrame(repeatMe);
         };
         //get the animation going
         repeatMe();
+
+        //variables for changeColour
+        var redNum = 1;
+        var blueNum = 0;
+        var boundryBlocker = 0.01;//so values don't go under 0 or over 1
+
+        function changeColour() {
+            
+            if (redNum <= 0 || redNum >= 1) {
+                boundryBlocker *= -1;
+            }
+
+            redNum += boundryBlocker;
+            blueNum -= boundryBlocker;
+            console.log(blueNum);
+
+
+            colour.setRGB(redNum, 0, blueNum);
+            materialTetrahedon.color = colour;
+        }
     </script>
 </body>
 
