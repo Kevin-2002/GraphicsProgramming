@@ -41,7 +41,7 @@
         //edit position of the plane
         plane.rotation.x += 1.7;
         plane.position.z += -3;
-        plane.position.y += -3;
+        plane.position.y += -2;
 
         //lighting
         var spotLight = new THREE.SpotLight(0xffffff, 10);
@@ -81,13 +81,14 @@
                     this.xSpeed *= -1;//change momentum
                 }
 
-                if (this.tetraherdon.position.y >= 0 || this.tetraherdon.position.y <= -1) {
+                if (this.tetraherdon.position.y >= 0.2 || this.tetraherdon.position.y <= -1.3) {
                     this.ySpeed *= -1;//change momentum
                 }
 
                 //move
                 this.tetraherdon.position.x += this.xSpeed;
                 this.tetraherdon.position.y -= this.ySpeed;
+                console.log(this.tetraherdon.position.y);
             }
 
             rotate() {
