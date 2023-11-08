@@ -17,7 +17,7 @@
         //camera
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         //set camera position 
-        camera.position.z = 5;
+        camera.position.z = 7;
 
         //use webGL render resources 
         var renderer = new THREE.WebGLRenderer();
@@ -87,13 +87,22 @@
                 }
 
                 if (this.tetraherdon.position.y >= 0.2 || this.tetraherdon.position.y <= -1.3) {
-                    this.ySpeed *= -1;//change momentum
+
+                    this.tetraherdon.position.y = -1.3
+
+                    this.ySpeed *= -0.9;//change momentum
                 }
 
                 //move
-                this.tetraherdon.position.x += this.xSpeed;
+                //this.tetraherdon.position.x += this.xSpeed;
                 this.tetraherdon.position.y -= this.ySpeed;
-                //console.log(this.tetraherdon.position.y);
+                console.log(this.tetraherdon.position.y);
+
+                this.gravity();
+            }
+
+            gravity() {
+                this.ySpeed += 0.01;
             }
 
             rotate() {
@@ -127,14 +136,14 @@
         var boundryBlocker = 0.01;//so values don't go under 0 or over 1
 
         function changeColour() {
-            
+
             if (redNum <= 0 || redNum >= 1) {
                 boundryBlocker *= -1;
             }
 
             redNum += boundryBlocker;
             blueNum -= boundryBlocker;
-            console.log(blueNum);
+            //console.log(blueNum);
 
 
             colour.setRGB(redNum, 0, blueNum);
