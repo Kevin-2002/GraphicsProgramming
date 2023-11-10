@@ -10,13 +10,53 @@
 </head>
 
 <body>
+    <h1>Kevin McShane</h1>
+    <svg></svg>
+
     <script type="text/javascript">
         $.getJSON("https://pkgstore.datahub.io/core/co2-ppm/co2-mm-mlo_json/data/aed7eb0d19cbcd90790525d40728b0a8/co2-mm-mlo_json.json", function (data) {
             console.log(data);
+            plotCO2Data(data);
         });
         
-        funplotCO2Data() {
+        function plotCO2Data(data) {
             
+            var margin = { top: 50, bottom: 50, left: 50, right: 50},
+            width = 900 - margin.left - margin.right,
+            height = 670 - margin.top - margin.bottom;
+
+            var parseDate = d3.timeParse("date");
+
+            var x = d3.scaleTime()
+                .domain(d3.extent(data, function (d) { return parseDate(d["Date"]); }))
+                .range([0, width]);
+
+            var xAxis = d3.axisBotttom(x)
+                .ticks(3);
+
+            var yAxis = d3.axisLeft(y)
+                .ticks(3);
+
+                        
+
+            var svg = d3.select('body')
+                .append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+
+                .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                svg.append('g')
+                    .attr('class', 'x axis')
+                    .call(xAxis);
+                
+                svg.append('g')
+                    .attr('class', 'y axis')
+                    .call(yAxis);
+
+                    svg.append("path")
+                        .attr("d", valueline(data));
         }
     </script>
 </body>
