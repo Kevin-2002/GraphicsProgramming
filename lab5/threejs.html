@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <h1>Kevin McShane: G00401808</h1>
     <script type="text/javascript">
         //scene
         var scene = new THREE.Scene();
@@ -31,13 +32,14 @@
         var geometryTetrahedron = new THREE.TetrahedronGeometry(radius, 3);
         //material
         var colour = new THREE.Color(0xff0000);//colour variable for later use
-
         var materialTetrahedon = new THREE.MeshLambertMaterial({ color: colour });
+
+        //wireframe code
+        //materialTetrahedon.wireframe = true;
 
         //add a variable to make our shape
         var tetraherdon = new THREE.Mesh(geometryTetrahedron, materialTetrahedon);
         scene.add(tetraherdon);
-
 
         //plane
         const geometryPlane = new THREE.PlaneGeometry(20, 10);//width, height
