@@ -18,7 +18,9 @@
         //camera
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         //set camera position 
-        camera.position.z = 7;
+        camera.position.z = 9;
+        camera.position.y = 1;
+        camera.position.x = 2;
 
         //use webGL render resources 
         var renderer = new THREE.WebGLRenderer();
@@ -31,31 +33,56 @@
         //tetrahedron
         var geometryTetrahedron = new THREE.TetrahedronGeometry(radius, 3);
         //material
-        var colour = new THREE.Color(0xff0000);//colour variable for later use
-        var materialTetrahedon = new THREE.MeshLambertMaterial({ color: colour });
+        var colourTetraherdon = new THREE.Color(0xff0000);//colour variable for later use
+        var materialTetrahedon = new THREE.MeshLambertMaterial({ color: colourTetraherdon });
 
         //add a variable to make our shape
         var tetraherdon = new THREE.Mesh(geometryTetrahedron, materialTetrahedon);
         scene.add(tetraherdon);
 
-        const wireframe = new THREE.WireframeGeometry( geometryTetrahedron );
+        const wireframe = new THREE.WireframeGeometry(geometryTetrahedron);
         const line = new THREE.LineSegments(wireframe);
         //add line as a chile of tetrahedron
         tetraherdon.add(line);
+
+        //cube
+        const cubeHeight = 4;
+        const cubeDepth = 10;
+        const geometryCube = new THREE.BoxGeometry(15, cubeHeight, cubeDepth);//width, height, depth
+        const materialCube = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide });
+        const cube = new THREE.Mesh(geometryCube, materialCube);
+        materialCube.transparent = true;
+        materialCube.opacity = 0.5;
+
+        cube.rotation.x += 1.8;
+        cube.rotation.z += 0.3;
+        cube.rotation.y += 0.06;
+        //cube.position.z += ;
+        cube.position.y += (-2 + (cubeHeight / 2));
+        console.log(cube.position.y)
         
+
+        scene.add(cube);
+
         //plane
         const geometryPlane = new THREE.PlaneGeometry(20, 10);//width, height
-        const materialPlane = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
-        const plane = new THREE.Mesh(geometryPlane, materialPlane);
-        scene.add(plane);
+        const materialPlane = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
+        const bottomPlane = new THREE.Mesh(geometryPlane, materialPlane);
+        scene.add(bottomPlane);
         //edit position of the plane
-        plane.rotation.x += 1.7;
-        plane.position.z += -3;
-        plane.position.y += -2;
+        bottomPlane.rotation.x += 1.8;
+        bottomPlane.rotation.z += 0.3;
+        bottomPlane.rotation.y += 0.06;
+        bottomPlane.position.z += -3;
+        bottomPlane.position.y += -2;
+
+        //texture
+        // materialPlane.transparent = true;
+        // materialPlane.opacity = 0.5;
 
         //lighting
-        var spotLight = new THREE.SpotLight(0xffffff, 10);
-        spotLight.position.set(2, 4, 1);//x, y, z?
+        var spotLight = new THREE.SpotLight(0xffffff, 10);//colour, brightness
+        spotLight.position.set(10, 10, 10);//x, y, z
         scene.add(spotLight);
 
         //shadow map
@@ -64,7 +91,7 @@
         document.body.appendChild(renderer.domElement);
         spotLight.castShadow = true;
         tetraherdon.castShadow = true;
-        plane.receiveShadow = true;
+        bottomPlane.receiveShadow = true;
 
         //add helper
         var helper = new THREE.CameraHelper(spotLight.shadow.camera);
@@ -91,7 +118,7 @@
                     this.xSpeed *= -1;//change momentum
                 }
 
-                if (this.tetraherdon.position.y <= (plane.position.y + radius)) {//-1 = (-2+1)
+                if (this.tetraherdon.position.y <= (bottomPlane.position.y + radius)) {//-1 = (-2+1)
 
                     this.tetraherdon.position.y = (-2 + radius);//-2+1=-1 as of right now
 
@@ -103,7 +130,7 @@
                 //move
                 //this.tetraherdon.position.x += this.xSpeed;
                 this.tetraherdon.position.y -= this.ySpeed;
-                console.log(this.tetraherdon.position.y);
+                //console.log(this.tetraherdon.position.y);
 
                 this.gravity();
             }
@@ -153,8 +180,8 @@
             //console.log(blueNum);
 
 
-            colour.setRGB(redNum, 0, blueNum);
-            materialTetrahedon.color = colour;
+            colourTetraherdon.setRGB(redNum, 0, blueNum);
+            materialTetrahedon.color = colourTetraherdon;
         }
     </script>
 </body>
