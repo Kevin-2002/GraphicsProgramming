@@ -34,13 +34,15 @@
         var colour = new THREE.Color(0xff0000);//colour variable for later use
         var materialTetrahedon = new THREE.MeshLambertMaterial({ color: colour });
 
-        //wireframe code
-        //materialTetrahedon.wireframe = true;
-
         //add a variable to make our shape
         var tetraherdon = new THREE.Mesh(geometryTetrahedron, materialTetrahedon);
         scene.add(tetraherdon);
 
+        const wireframe = new THREE.WireframeGeometry( geometryTetrahedron );
+        const line = new THREE.LineSegments(wireframe);
+        //add line as a chile of tetrahedron
+        tetraherdon.add(line);
+        
         //plane
         const geometryPlane = new THREE.PlaneGeometry(20, 10);//width, height
         const materialPlane = new THREE.MeshLambertMaterial({ color: 0xffff00, side: THREE.DoubleSide });
