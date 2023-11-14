@@ -40,10 +40,10 @@
         var tetraherdon = new THREE.Mesh(geometryTetrahedron, materialTetrahedon);
         scene.add(tetraherdon);
 
-        const wireframe = new THREE.WireframeGeometry(geometryTetrahedron);
-        const line = new THREE.LineSegments(wireframe);
-        //add line as a chile of tetrahedron
-        tetraherdon.add(line);
+        const wireframeTetrahedron = new THREE.WireframeGeometry(geometryTetrahedron);
+        const lineTetrahedron = new THREE.LineSegments(wireframeTetrahedron);
+        //add line as a child of tetrahedron
+        tetraherdon.add(lineTetrahedron);
 
         //cube
         const cubeHeight = 7;
@@ -56,6 +56,12 @@
         materialCube.opacity = 0.5;
         cube.position.y += 0;
         scene.add(cube);
+
+        // const wireframeCube = new THREE.WireframeGeometry(geometryCube);
+        // const lineCube = new THREE.LineSegments(wireframeCube);
+        // //add line as a child of cube
+        // cube.add(lineCube);
+
 
         //plane
         // const geometryPlane = new THREE.PlaneGeometry(20, 10);//width, height
@@ -75,7 +81,7 @@
 
         //lighting
         var spotLight = new THREE.SpotLight(0xffffff, 20);//colour, brightness
-        spotLight.position.set(-4, 4, 4);//x, y, z
+        spotLight.position.set(-5, 5, 4);//x, y, z (camera always has a angle facing 0,0,0)
         scene.add(spotLight);
 
         //shadow map
