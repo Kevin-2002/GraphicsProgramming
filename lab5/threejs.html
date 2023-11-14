@@ -48,8 +48,9 @@
         //cube
         const cubeHeight = 7;
         const cubeDepth = 7;
+        const cubeWidth = 15;
         const bottomFaceY = ((cubeHeight / 2) - cubeHeight);
-        const geometryCube = new THREE.BoxGeometry(15, cubeHeight, cubeDepth);//width, height, depth
+        const geometryCube = new THREE.BoxGeometry(cubeWidth, cubeHeight, cubeDepth);//width, height, depth
         const materialCube = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide });
         const cube = new THREE.Mesh(geometryCube, materialCube);
         materialCube.transparent = true;
@@ -57,10 +58,10 @@
         cube.position.y += 0;
         scene.add(cube);
 
-        // const wireframeCube = new THREE.WireframeGeometry(geometryCube);
-        // const lineCube = new THREE.LineSegments(wireframeCube);
-        // //add line as a child of cube
-        // cube.add(lineCube);
+        const wireframeCube = new THREE.WireframeGeometry(geometryCube);
+        const lineCube = new THREE.LineSegments(wireframeCube);
+        //add line as a child of cube
+        cube.add(lineCube);
 
 
         //plane
@@ -107,17 +108,19 @@
                 //default variables
                 this.xSpeed = 0.1;
                 this.ySpeed = 0.01;
+                this.zSpeed = 0.05;
                 this.xRotationSpeed = 0.1;
                 this.yRotationSpeed = 0.1;
             }
 
             move() {
-                //starts in the middle of screen at x=0
-                //hits window at -7 to 7
-                if (this.tetraherdon.position.x >= 7 || this.tetraherdon.position.x <= -7) {
+                //x boundry (-x || x)
+                if (this.tetraherdon.position.x <= (-cubeWidth / 2) + radius || this.tetraherdon.position.x >= (cubeWidth / 2) - radius) {
                     this.xSpeed *= -1;//change momentum
+                    console.log(tetraherdon.position.x);
                 }
 
+                //y boundry
                 if (this.tetraherdon.position.y <= bottomFaceY + radius) {//-1 = (-2+1)
 
                     this.tetraherdon.position.y = bottomFaceY + radius;//-2+1=-1 as of right now
@@ -127,9 +130,16 @@
                     //console.log(this.tetraherdon.position.y);
                 }
 
+                //z boundry (-z || z)
+                if (this.tetraherdon.position.z <= (-cubeDepth/2)+radius || this.tetraherdon.position.z >= (cubeDepth/2)-radius) {
+                    this.zSpeed *= -1;
+                }
+
                 //move
                 this.tetraherdon.position.x += this.xSpeed;
                 this.tetraherdon.position.y -= this.ySpeed;
+                this.tetraherdon.position.z -= this.zSpeed;
+
                 //console.log(this.tetraherdon.position.y);
 
                 this.gravity();
