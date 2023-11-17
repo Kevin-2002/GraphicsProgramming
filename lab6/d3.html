@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>D3.js Demo</title>
     <meta charset="UTF-8">
@@ -25,20 +25,30 @@
             width = 900 - margin.left - margin.right,
             height = 670 - margin.top - margin.bottom;
 
-            var parseDate = d3.timeParse("date");
+            //define the way the data is layed out in our json object
+            var parseDate = d3.timeParse("%Y, %m, %d");
 
+            //scale
             var x = d3.scaleTime()
-                .domain(d3.extent(data, function (d) { return parseDate(d["Date"]); }))
+                .domain(d3.extent(data, function (d) { return parseDate(d["Date"]) }))
                 .range([0, width]);
 
-            var xAxis = d3.axisBotttom(x)
+            var y = d3.scaleLinear()
+                .domain(d3.extent(data, function (d) { return d["Interpolated"] }))
+                .range([height, 0]);
+
+            //axis
+            var xAxis = d3.axisBottom(x)
                 .ticks(3);
 
             var yAxis = d3.axisLeft(y)
                 .ticks(3);
 
+            //declare valueLine
+            var valueline = d3.line()
+                .x(function (d) { return x(parseDate(d["Date"])); })
+                .y(function (d) { return y(d["Interpolated"]); });
                         
-
             var svg = d3.select('body')
                 .append("svg")
                     .attr("width", width + margin.left + margin.right)
