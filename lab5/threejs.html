@@ -29,101 +29,40 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        var radius = 1;
-        //tetrahedron
-        var geometryTetrahedron = new THREE.TetrahedronGeometry(radius, 3);
-        //material
-        var colourTetraherdon = new THREE.Color(0xff0000);//colour variable for later use
-        var materialTetrahedon = new THREE.MeshLambertMaterial({ color: colourTetraherdon });
-
-        //add a variable to make our shape
-        var tetraherdon = new THREE.Mesh(geometryTetrahedron, materialTetrahedon);
-        scene.add(tetraherdon);
-
-        const wireframeTetrahedron = new THREE.WireframeGeometry(geometryTetrahedron);
-        const lineTetrahedron = new THREE.LineSegments(wireframeTetrahedron);
-        //add line as a child of tetrahedron
-        tetraherdon.add(lineTetrahedron);
-
-        //cube
-        const cubeHeight = 7;
-        const cubeDepth = 7;
-        const cubeWidth = 15;
-        const bottomFaceY = ((cubeHeight / 2) - cubeHeight);
-        const geometryCube = new THREE.BoxGeometry(cubeWidth, cubeHeight, cubeDepth);//width, height, depth
-        const materialCube = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide });
-        const cube = new THREE.Mesh(geometryCube, materialCube);
-        materialCube.transparent = true;
-        materialCube.opacity = 0.5;
-        cube.position.y += 0;
-        scene.add(cube);
-
-        const wireframeCube = new THREE.WireframeGeometry(geometryCube);
-        const lineCube = new THREE.LineSegments(wireframeCube);
-        //add line as a child of cube
-        cube.add(lineCube);
-
-
-        //plane
-        // const geometryPlane = new THREE.PlaneGeometry(20, 10);//width, height
-        // const materialPlane = new THREE.MeshLambertMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-        // const bottomPlane = new THREE.Mesh(geometryPlane, materialPlane);
-        // //scene.add(bottomPlane);
-        // //edit position of the plane
-        // bottomPlane.rotation.x += 1.8;
-        // bottomPlane.rotation.z += 0.3;
-        // bottomPlane.rotation.y += 0.06;
-        // bottomPlane.position.z += -3;
-        // bottomPlane.position.y += -2;
-
-        //texture
-        // materialPlane.transparent = true;
-        // materialPlane.opacity = 0.5;
-
-        //lighting
-        var spotLight = new THREE.SpotLight(0xffffff, 20);//colour, brightness
-        spotLight.position.set(-5, 5, 4);//x, y, z (camera always has a angle facing 0,0,0)
-        scene.add(spotLight);
-
-        //shadow map
-        renderer.shadowMap.enabled = true;
-        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-        document.body.appendChild(renderer.domElement);
-        spotLight.castShadow = true;
-        tetraherdon.castShadow = true;
-        cube.receiveShadow = true;
-        //bottomPlane.receiveShadow = true;
-
-        //add helper
-        var helper = new THREE.CameraHelper(spotLight.shadow.camera);
-        scene.add(helper);
-
-        class tetraherdonObject {
-            constructor(geometry, material, tetraherdon) {
-                //constructor variables
-                this.geometry = geometry;
-                this.material = material;
-                this.tetraherdon = tetraherdon;
-
+        class TetraherdonObject {
+            constructor() {
                 //default variables
+                this.radius = 1;
+                this.colour = new THREE.Color(0xff0000);//colour variable for later use
+                this.geometry = new THREE.TetrahedronGeometry(this.radius, 3);
+                this.material = new THREE.MeshLambertMaterial({ color: this.colour });
+                this.tetraherdon = new THREE.Mesh(this.geometry, this.material);
+
+                this.wireframe = new THREE.WireframeGeometry(this.geometry);
+                this.line = new THREE.LineSegments(this.wireframe);
                 this.xSpeed = 0.1;
                 this.ySpeed = 0.01;
                 this.zSpeed = 0.05;
                 this.xRotationSpeed = 0.1;
                 this.yRotationSpeed = 0.1;
+
+                //variables for changeColour
+                this.redNum = 1;
+                this.blueNum = 0;
+                this.boundryBlocker = 0.01;//so values don't go under 0 or over 1
             }
 
             move() {
                 //x boundry (-x || x)
-                if (this.tetraherdon.position.x <= (-cubeWidth / 2) + radius || this.tetraherdon.position.x >= (cubeWidth / 2) - radius) {
+                if (this.tetraherdon.position.x <= (-c.cubeWidth / 2) + this.radius || this.tetraherdon.position.x >= (c.cubeWidth / 2) - this.radius) {
                     this.xSpeed *= -1;//change momentum
-                    console.log(tetraherdon.position.x);
+                    //console.log(this.tetraherdon.position.x);
                 }
 
                 //y boundry
-                if (this.tetraherdon.position.y <= bottomFaceY + radius) {//-1 = (-2+1)
+                if (this.tetraherdon.position.y <= c.bottomFaceY + this.radius) {//-1 = (-2+1)
 
-                    this.tetraherdon.position.y = bottomFaceY + radius;//-2+1=-1 as of right now
+                    this.tetraherdon.position.y = c.bottomFaceY + this.radius;//-2+1=-1 as of right now
 
                     this.ySpeed *= -0.9;//change momentum
                     //console.log(plane.position.y);
@@ -131,7 +70,7 @@
                 }
 
                 //z boundry (-z || z)
-                if (this.tetraherdon.position.z <= (-cubeDepth/2)+radius || this.tetraherdon.position.z >= (cubeDepth/2)-radius) {
+                if (this.tetraherdon.position.z <= (-c.cubeDepth / 2) + this.radius || this.tetraherdon.position.z >= (c.cubeDepth / 2) - this.radius) {
                     this.zSpeed *= -1;
                 }
 
@@ -154,45 +93,98 @@
                 this.tetraherdon.rotation.x += this.xRotationSpeed;
                 this.tetraherdon.rotation.y += this.yRotationSpeed;
             }
+
+            makeTetrahedron() {
+                scene.add(this.tetraherdon);
+                //add line as a child of tetrahedron
+                this.tetraherdon.add(this.line);
+            }
+
+            changeColour() {
+
+                if (this.redNum <= 0 || this.redNum >= 1) {
+                    this.boundryBlocker *= -1;
+                }
+
+                this.redNum += this.boundryBlocker;
+                this.blueNum -= this.boundryBlocker;
+                //console.log(this.blueNum);
+
+
+                this.colour.setRGB(this.redNum, 0, this.blueNum);
+                this.material.color = this.colour;
+            }
+        }
+
+        class Cube {
+            constructor() {
+                //dafualt variables
+                this.cubeHeight = 7;
+                this.cubeDepth = 7;
+                this.cubeWidth = 15;
+                this.bottomFaceY = ((this.cubeHeight / 2) - this.cubeHeight);
+                this.geometry = new THREE.BoxGeometry(this.cubeWidth, this.cubeHeight, this.cubeDepth);//width, height, depth
+                this.material = new THREE.MeshLambertMaterial({ color: 0xFFFFFF, side: THREE.DoubleSide });
+                this.cube = new THREE.Mesh(this.geometry, this.material);
+
+                this.wireframe = new THREE.WireframeGeometry(this.geometry);
+                this.line = new THREE.LineSegments(this.wireframe);
+            }
+
+            makeCube() {
+                this.material.transparent = true;
+                this.material.opacity = 0.5;
+                this.cube.position.y += 0;
+                scene.add(this.cube);
+
+                //add line as a child of cube
+                this.cube.add(this.line);
+            }
         }
 
         //declare instance of tetrahedron
-        const t = new tetraherdonObject(geometryTetrahedron, materialTetrahedon, tetraherdon);
+        const c = new Cube();
+        const t = new TetraherdonObject();
+
+        //lighting
+        var spotLight = new THREE.SpotLight(0xffffff, 20);//colour, brightness
+        spotLight.position.set(-5, 5, 4);//x, y, z (camera always has a angle facing 0,0,0)
+        scene.add(spotLight);
+
+        //shadow map
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        document.body.appendChild(renderer.domElement);
+        spotLight.castShadow = true;
+        t.tetraherdon.castShadow = true;
+        c.cube.receiveShadow = true;
+
+        //add helper
+        var helper = new THREE.CameraHelper(spotLight.shadow.camera);
+        scene.add(helper);
 
         //repeat function
         var repeatMe = function () {
             //render
             renderer.render(scene, camera);
 
+            //cube methods
+            c.makeCube();
+
             //tetrahedron methods
+            t.makeTetrahedron();
             t.move();
             t.rotate();
-            changeColour();
+            t.changeColour();
 
             requestAnimationFrame(repeatMe);
         };
         //get the animation going
         repeatMe();
 
-        //variables for changeColour
-        var redNum = 1;
-        var blueNum = 0;
-        var boundryBlocker = 0.01;//so values don't go under 0 or over 1
-
-        function changeColour() {
-
-            if (redNum <= 0 || redNum >= 1) {
-                boundryBlocker *= -1;
-            }
-
-            redNum += boundryBlocker;
-            blueNum -= boundryBlocker;
-            //console.log(blueNum);
 
 
-            colourTetraherdon.setRGB(redNum, 0, blueNum);
-            materialTetrahedon.color = colourTetraherdon;
-        }
+
     </script>
 </body>
 
