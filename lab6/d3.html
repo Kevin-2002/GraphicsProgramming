@@ -29,14 +29,16 @@
             var parseDate = d3.timeParse("%Y-%m-%d");
 
             //scale
+            var y = d3.scaleLinear()
+                .domain(d3.extent(data, function (d) { return d["Interpolated"] }))
+                .range([height, 0]);
+            
             var x = d3.scaleTime()
                 .domain(d3.extent(data, function (d) { return parseDate(d["Date"]) }))
                 .range([0, width]);
 
-            var y = d3.scaleLinear()
-                .domain(d3.extent(data, function (d) { return d["Interpolated"] }))
-                .range([height, 0]);
-
+            console.log(width, height);
+            
             //axis
             var xAxis = d3.axisBottom(x)
                 .ticks(3);
@@ -59,6 +61,7 @@
 
                 svg.append('g')
                     .attr('class', 'x axis')
+                    .attr("transform", "translate(0," + height + ")")
                     .call(xAxis);
                 
                 svg.append('g')
