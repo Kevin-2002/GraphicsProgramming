@@ -18,7 +18,7 @@
         });
 
         function plotCO2Data(data) {
-
+            //set margins, hieght and width
             var margin = { top: 50, bottom: 50, left: 50, right: 50 },
                 width = 900 - margin.left - margin.right,
                 height = 670 - margin.top - margin.bottom;
@@ -26,7 +26,7 @@
             //define the way the data is layed out in our json object
             var parseDate = d3.timeParse("%Y-%m-%d");
 
-            //scale
+            //scale the graph
             var y = d3.scaleLinear()
                 .domain(d3.extent(data, function (d) { return d["Interpolated"] }))
                 .range([height, 0]);
@@ -34,8 +34,6 @@
             var x = d3.scaleTime()
                 .domain(d3.extent(data, function (d) { return parseDate(d["Date"]) }))
                 .range([0, width]);
-
-            console.log(width, height);
 
             //axis
             var xAxis = d3.axisBottom(x)
@@ -45,23 +43,30 @@
                 .ticks(3);
 
             //declare valueLine
-            var valueline = d3.line()
+            var valueLine = d3.line()
                 .x(function (d) { return x(parseDate(d["Date"])); })
                 .y(function (d) { return y(d["Interpolated"]); });
 
+            //declare trendLine
+            var trendLine = d3.line()
+                .x(function (d) { return x(parseDate(d["Date"])); })
+                .y(function (d) { return y(d["Trend"]); });
+
+            //append the body tag to make an svg tag
             var svg = d3.select('body')
                 .append("svg")
                 .attr("width", width + margin.left + margin.right)
                 .attr("height", height + margin.top + margin.bottom)
-
-                .append("g")
+                .append("g")//declare the g tag in the svg tag
                 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+            //put an x axis on the g tag
             svg.append('g')
                 .attr('class', 'x axis')
-                .attr("transform", "translate(0," + height + ")")
+                .attr("transform", "translate(0," + height + ")")//ensures y = 0
                 .call(xAxis);
 
+            //put an x axis on the g tag (default is x = 0)
             svg.append('g')
                 .attr('class', 'y axis')
                 .call(yAxis);
@@ -82,11 +87,17 @@
                 .style("text-anchor", "middle")
                 .text("CO2 atmosphere levels");
 
-
+            //draw the valueLine line
             svg.append("path")
-                .attr("d", valueline(data))
+                .attr("d", valueLine(data))
                 .attr("fill", "none")
                 .attr("stroke", "red");
+
+            //draw the valueLine line
+            svg.append("path")
+                .attr("d", trendLine(data))
+                .attr("fill", "none")
+                .attr("stroke", "blue");
         }
     </script>
 </body>
