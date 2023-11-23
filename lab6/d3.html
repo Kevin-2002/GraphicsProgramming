@@ -87,18 +87,53 @@
                 .style("text-anchor", "middle")
                 .text("CO2 atmosphere levels");
 
-            //draw the valueLine line
-            svg.append("path")
+            // Append groups for lines
+            var linesGroup = svg.append('g').attr('class', 'lines');
+
+            // draw the valueLine line
+            linesGroup.append("path")
+                .attr("class", "value-line")
                 .attr("d", valueLine(data))
                 .attr("fill", "none")
                 .attr("stroke", "red");
 
-            //draw the valueLine line
-            svg.append("path")
+            // draw the trendLine line
+            linesGroup.append("path")
+                .attr("class", "trend-line")
                 .attr("d", trendLine(data))
                 .attr("fill", "none")
                 .attr("stroke", "blue");
+
+            // Zoom functionality
+            var zoom = d3.zoom()
+                .scaleExtent([1, Infinity])
+                .translateExtent([[0, 0], [width, height]])
+                .extent([[0, 0], [width, height]])
+                .on("zoom", zoomed);
+
+            svg.append("rect")
+                .attr("width", width)
+                .attr("height", height)
+                .attr("fill", "none")
+                .attr("pointer-events", "all")
+                .call(zoom);
+
+            function zoomed() {
+                // Update axis
+                svg.select('.x.axis').call(xAxis.scale(d3.event.transform.rescaleX(x)));
+
+                // Update valueLine and trendLine paths
+                linesGroup.selectAll('.value-line')
+                    .attr("d", valueLine(data))
+                    .attr("transform", d3.event.transform);
+
+                linesGroup.selectAll('.trend-line')
+                    .attr("d", trendLine(data))
+                    .attr("transform", d3.event.transform);
+            }
+
         }
+
     </script>
 </body>
 
