@@ -116,6 +116,68 @@
                 .attr("fill", "none")
                 .attr("stroke", "blue");
 
+
+            // Set up the secondary stretched graph
+            var secondaryMargin = { top: 10, right: 20, bottom: 30, left: 40 },
+                secondaryWidth = width, // Match the width with the original graph
+                secondaryHeight = 100; // Define the height for the secondary graph
+
+            var x2 = d3.scaleTime().range([0, secondaryWidth]);
+
+            var y2 = d3.scaleLinear()
+                .domain([0, d3.max(data, function (d) { return d["Interpolated"]; })]) // Update the domain
+                .range([secondaryHeight, 0]);
+                
+            var xAxis2 = d3.axisBottom(x2);
+
+            var yAxis2 = d3.axisLeft(y2);
+
+            var secondarySvg = d3.select('body')
+                .append('svg')
+                .attr('width', secondaryWidth + secondaryMargin.left + secondaryMargin.right)
+                .attr('height', secondaryHeight + secondaryMargin.top + secondaryMargin.bottom)
+                .append('g')
+                .attr('transform', 'translate(' + secondaryMargin.left + ',' + secondaryMargin.top + ')');
+
+            var valueLine2 = d3.line()
+                .x(function (d) { return x2(parseDate(d['Date'])); })
+                .y(function (d) { return y2(d['Interpolated']); });
+
+            secondarySvg.append('path')
+                .datum(data)
+                .attr('class', 'line')
+                .attr('d', valueLine2(data))
+                .attr('fill', 'none')
+                .attr('stroke', 'red'); // Add the stroke color here
+
+            var secondaryBrush = d3.brushX()
+                .extent([[0, 0], [secondaryWidth, secondaryHeight]])
+                .on('end', brushedSecondary);
+
+            secondarySvg.append('g')
+                .attr('class', 'brush')
+                .call(secondaryBrush);
+
+            function brushedSecondary() {
+                if (!d3.event.selection) return; // Return if no selection
+
+                var selectedRange = d3.event.selection.map(x2.invert); // Get the selected range
+
+                // Update x domain of the original graph based on the brushed range
+                x.domain(selectedRange);
+
+                // Redraw the lines and x-axis of the original graph
+                svg.select('.line')
+                    .attr('d', valueLine(data));
+
+                svg.select('.x.axis')
+                    .call(xAxis);
+
+                // Redraw the lines and x-axis of the smaller secondary graph
+                secondarySvg.select('.line')
+                    .attr('d', valueLine2(data)); // Use the same line generator as for the main graph
+            }
+
             // Zoom functionality
             var zoom = d3.zoom()
                 .scaleExtent([1, Infinity])
@@ -152,28 +214,6 @@
             svg.append("g")
                 .attr("class", "brush")
                 .call(brush);
-
-            function brushed() {
-                if (!d3.event.selection) return; // Return if no selection
-
-                var selectedRange = d3.event.selection.map(x.invert); // Get the selected range
-
-                // Update x domain based on the brushed range
-                x.domain(selectedRange);
-
-                // Update the rendering of your lines and axes here
-                // Update the CO2 data displayed in the selected range
-
-                // Redraw the lines according to the new domain
-                svg.select(".line")
-                    .attr("d", valueLine(data));
-
-                // Update the x-axis based on the new domain
-                svg.select(".x.axis")
-                    .call(xAxis);
-            }
-
-
         }
 
     </script>
