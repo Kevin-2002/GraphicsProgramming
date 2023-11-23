@@ -90,6 +90,18 @@
             // Append groups for lines
             var linesGroup = svg.append('g').attr('class', 'lines');
 
+            // Define clipping path
+            svg.append("defs").append("clipPath")
+                .attr("id", "clip")
+                .append("rect")
+                .attr("width", width)
+                .attr("height", height);
+
+            // Append a group for lines with clipping path
+            var linesGroup = svg.append('g')
+                .attr('class', 'lines')
+                .attr("clip-path", "url(#clip)");
+
             // draw the valueLine line
             linesGroup.append("path")
                 .attr("class", "value-line")
@@ -131,6 +143,36 @@
                     .attr("d", trendLine(data))
                     .attr("transform", d3.event.transform);
             }
+
+            var brush = d3.brushX()
+                .extent([[0, 0], [width, height]]) // Define the extent of the brush
+                .on("end", brushed); // Define the function to call when brushing ends
+
+            // Append brush to your svg
+            svg.append("g")
+                .attr("class", "brush")
+                .call(brush);
+
+            function brushed() {
+                if (!d3.event.selection) return; // Return if no selection
+
+                var selectedRange = d3.event.selection.map(x.invert); // Get the selected range
+
+                // Update x domain based on the brushed range
+                x.domain(selectedRange);
+
+                // Update the rendering of your lines and axes here
+                // Update the CO2 data displayed in the selected range
+
+                // Redraw the lines according to the new domain
+                svg.select(".line")
+                    .attr("d", valueLine(data));
+
+                // Update the x-axis based on the new domain
+                svg.select(".x.axis")
+                    .call(xAxis);
+            }
+
 
         }
 
