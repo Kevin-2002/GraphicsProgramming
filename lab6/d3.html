@@ -122,14 +122,17 @@
                 secondaryWidth = width, // Match the width with the original graph
                 secondaryHeight = 100; // Define the height for the secondary graph
 
-            var x2 = d3.scaleTime().range([0, secondaryWidth]);
+            //scale
+            var x2 = d3.scaleTime().range([0, secondaryWidth])
+                .domain(d3.extent(data, function (d) { return parseDate(d["Date"]) }))
+                .range([0, width]);
 
             var y2 = d3.scaleLinear()
-                .domain([0, d3.max(data, function (d) { return d["Interpolated"]; })]) // Update the domain
+                .domain(d3.extent(data, function (d) { return d["Interpolated"] })) // Update the domain
                 .range([secondaryHeight, 0]);
-                
-            var xAxis2 = d3.axisBottom(x2);
 
+            //axis
+            var xAxis2 = d3.axisBottom(x2);
             var yAxis2 = d3.axisLeft(y2);
 
             var secondarySvg = d3.select('body')
@@ -143,12 +146,23 @@
                 .x(function (d) { return x2(parseDate(d['Date'])); })
                 .y(function (d) { return y2(d['Interpolated']); });
 
+            var trendLine2 = d3.line()
+                .x(function (d) { return x(parseDate(d["Date"])); })
+                .y(function (d) { return y(d["Trend"]); });
+
             secondarySvg.append('path')
                 .datum(data)
                 .attr('class', 'line')
                 .attr('d', valueLine2(data))
                 .attr('fill', 'none')
                 .attr('stroke', 'red'); // Add the stroke color here
+
+            secondarySvg.append('path')
+                .datum(data)
+                .attr('class', 'line')
+                .attr('d', trendLine2(data))
+                .attr('fill', 'none')
+                .attr('stroke', 'blue'); // Add the stroke color here
 
             var secondaryBrush = d3.brushX()
                 .extent([[0, 0], [secondaryWidth, secondaryHeight]])
