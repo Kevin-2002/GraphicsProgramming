@@ -87,6 +87,14 @@
                 .style("text-anchor", "middle")
                 .text("CO2 atmosphere levels");
 
+            svg.append("text")
+                .attr("x", width / 2)
+                .attr("y", -margin.top / 2)
+                .attr("text-anchor", "middle")
+                .style("font-size", "16px")
+                .style("text-decoration", "underline")
+                .text("CO2 Levels Over Time");
+
             // Append groups for lines
             var linesGroup = svg.append('g').attr('class', 'lines');
 
@@ -125,7 +133,7 @@
             //scale
             var x2 = d3.scaleTime().range([0, secondaryWidth])
                 .domain(d3.extent(data, function (d) { return parseDate(d["Date"]) }))
-                .range([0, width]);
+                .range([0, secondaryWidth]);
 
             var y2 = d3.scaleLinear()
                 .domain(d3.extent(data, function (d) { return d["Interpolated"] })) // Update the domain
