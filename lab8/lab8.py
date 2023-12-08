@@ -9,14 +9,19 @@ imgOrig = cv2.imread('./ATU.jpg')
 # read in a grayscale version
 imgGray = cv2.cvtColor(imgOrig, cv2.COLOR_RGB2GRAY)
 
+# variables for subplotting
+nrows = 1
+ncols = 2
+
 # use subplot to put multiple images in a single window 
-plt.subplot(nrows, ncols,1),plt.imshow(imgOrig, cmap = 'gray')
+plt.subplot(nrows, ncols,1),plt.imshow(cv2.cvtColor(imgOrig,
+cv2.COLOR_BGR2RGB), cmap = 'gray')
 plt.title('Original'), plt.xticks([]), plt.yticks([])
 plt.subplot(nrows, ncols,2),plt.imshow(imgGray, cmap = 'gray')
-plt.title(‘GrayScale’), plt.xticks([]), plt.yticks([])
+plt.title('GrayScale'), plt.xticks([]), plt.yticks([])
 plt.show()
 
 # display image
-cv2.imshow('Grayscale Image', imgGray)
-cv2.waitKey(0) 
-cv2.destroyAllWindows()
+#cv2.imshow('Grayscale Image', imgGray)
+#cv2.waitKey(0) 
+#cv2.destroyAllWindows()
