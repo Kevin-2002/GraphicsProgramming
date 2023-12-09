@@ -32,6 +32,13 @@ imgSobelx = cv2.Sobel(imgGray,cv2.CV_64F,1,0,ksize=5) # x dir
 imgSobely = cv2.Sobel(imgGray,cv2.CV_64F,0,1,ksize=5) # y dir
 imgSobelSum = imgSobelx + imgSobely # x&y dir
 
+# canny variables
+cannyThreshold = 100
+cannyParam2 = 200
+
+# canny edge detection code
+imgCanny = cv2.Canny(imgGray,cannyThreshold,cannyParam2)
+
 # use subplot to put multiple images in a single window 
 plt.subplot(nrows, ncols,1),plt.imshow(cv2.cvtColor(imgOrig,
 cv2.COLOR_BGR2RGB), cmap = 'gray')
@@ -48,6 +55,8 @@ plt.subplot(nrows, ncols,6),plt.imshow(imgSobely, cmap = 'gray')
 plt.title('sobel y'), plt.xticks([]), plt.yticks([])
 plt.subplot(nrows, ncols,7),plt.imshow(imgSobelSum, cmap = 'gray')
 plt.title('sobel Sum'), plt.xticks([]), plt.yticks([])
+plt.subplot(nrows, ncols,8),plt.imshow(imgCanny, cmap = 'gray')
+plt.title('Canny Trace'), plt.xticks([]), plt.yticks([])
 
 plt.show()
 
