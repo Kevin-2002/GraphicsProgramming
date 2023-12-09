@@ -27,6 +27,10 @@ KernelSizeHeight = 13
 # store 13x13 blurred image
 imgBlur13x13 = cv2.GaussianBlur(imgGray,(KernelSizeWidth, KernelSizeHeight),0)
 
+# sobel edge detection code 
+imgSobelx = cv2.Sobel(imgGray,cv2.CV_64F,1,0,ksize=5) # x dir 
+imgSobely = cv2.Sobel(imgGray,cv2.CV_64F,0,1,ksize=5) # y dir
+
 # use subplot to put multiple images in a single window 
 plt.subplot(nrows, ncols,1),plt.imshow(cv2.cvtColor(imgOrig,
 cv2.COLOR_BGR2RGB), cmap = 'gray')
@@ -37,6 +41,10 @@ plt.subplot(nrows, ncols,3),plt.imshow(imgBlur3x3, cmap = 'gray')
 plt.title('3x3 Blur'), plt.xticks([]), plt.yticks([])
 plt.subplot(nrows, ncols,4),plt.imshow(imgBlur13x13, cmap = 'gray')
 plt.title('13x13 Blur'), plt.xticks([]), plt.yticks([])
+plt.subplot(nrows, ncols,5),plt.imshow(imgSobelx, cmap = 'gray') 
+plt.title('sobel x'), plt.xticks([]), plt.yticks([]) 
+plt.subplot(nrows, ncols,6),plt.imshow(imgSobely, cmap = 'gray')
+plt.title('sobel y'), plt.xticks([]), plt.yticks([])
 
 plt.show()
 
