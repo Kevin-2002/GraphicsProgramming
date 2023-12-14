@@ -25,15 +25,32 @@ dst = cv2.cornerHarris(ATUGray1, blockSize, aperture_size, k)
 imgHarris = copy.deepcopy(ATUGray1)
 
 #set var
-threshold = 0.6; #number between 0 and 1
-R = 0
-B = 0
-G = 255
+threshold = 0.5; #number between 0 and 1
+R = 255
+B = 50
+G = 100
 for i in range(len(dst)):
     for j in range(len(dst[i])):
         if dst[i][j] > (threshold*dst.max()):
             cv2.circle(imgHarris,(j,i),3,(B, G, R),-1)
 
+#shi tomasi
+# set var
+maxCorners = 200
+qualityLevel = 0.01
+minDistance = 10
+corners = cv2.goodFeaturesToTrack(ATUGray1,maxCorners,qualityLevel,minDistance)
+
+# deep copy
+imgShiTomasi = copy.deepcopy(ATUGray1)
+
+# plot corners
+R = 100
+B = 100
+G = 55
+for i in corners:
+    x,y = i.ravel()
+    cv2.circle(imgShiTomasi,(int(x),int(y)),3,(B, G, R),-1)
 
 # plot images
 # variables for subplotting
@@ -47,6 +64,8 @@ plt.subplot(nrows, ncols,2),plt.imshow(ATUGray1, cmap = 'gray')
 plt.title('GrayScale'), plt.xticks([]), plt.yticks([])
 plt.subplot(nrows, ncols,3),plt.imshow(dst, cmap = 'gray')
 plt.title('Harris'), plt.xticks([]), plt.yticks([])
+plt.subplot(nrows, ncols,4),plt.imshow(imgShiTomasi, cmap = 'gray')
+plt.title('ShiTomasi'), plt.xticks([]), plt.yticks([])
 
 # show images
 plt.show()
