@@ -31,7 +31,7 @@ imgBlur13x13 = cv2.GaussianBlur(imgGray,(KernelSizeWidth, KernelSizeHeight),0)
 # sobel edge detection code 
 imgSobelx = cv2.Sobel(imgGray,cv2.CV_64F,1,0,ksize=5) # x dir 
 imgSobely = cv2.Sobel(imgGray,cv2.CV_64F,0,1,ksize=5) # y dir
-imgSobelSum = imgSobelx + imgSobely # x&y dir
+imgSobelSum = np.abs(imgSobelx) + np.abs(imgSobely) # x&y dir absolute values
 
 # canny variables
 cannyThreshold = 100
@@ -100,25 +100,19 @@ plt.title('Canny Trace'), plt.xticks([]), plt.yticks([])
 
 plt.show()
 
-# Find contours
-contours, _ = cv2.findContours(MyImgCanny, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-# Draw contours on a blank canvas
-contour_img = np.zeros_like(myImg)
 
-# Draw contours on the blank canvas
-cv2.drawContours(contour_img, contours, -1, (255, 255, 255), thickness=1)
+plt.figure(figsize=(12, 8))
 
-# Display the original image and the contours
-plt.subplot(1, 2, 1)
-plt.imshow(cv2.cvtColor(myImg, cv2.COLOR_BGR2RGB))
-plt.title('Original Image')
-plt.axis('off')
+# Display the original image and Sobel sum image for different thresholds
+for i, threshold in enumerate(range(20, 101, 20), start=1):
+    # Apply thresholding to Sobel sum image
+    thresholded_img = np.where(imgSobelSum > threshold, 1, 0)
 
-plt.subplot(1, 2, 2)
-plt.imshow(contour_img, cmap='gray')
-plt.title('Contours')
-plt.axis('off')
+    plt.subplot(nrows, ncols, i)
+    plt.imshow(thresholded_img, cmap='gray')
+    plt.title(f'Threshold: {threshold}')
+    plt.axis('off')
 
 plt.tight_layout()
 plt.show()
