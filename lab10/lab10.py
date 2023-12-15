@@ -14,9 +14,9 @@ while cap.isOpened():
     success, frame = cap.read()
 
     if success:
-        # Perform tracking with the model
-        results = model.track(source="./traffic.mp4", show=True)  # Tracking with default tracker
-
+        # Run YOLOv8 tracking on the frame, persisting tracks between frames
+        results = model.track(frame, persist=True)
+        
         # Visualize the results on the frame
         annotated_frame = results[0].plot()
 
