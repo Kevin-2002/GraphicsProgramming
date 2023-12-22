@@ -1,5 +1,8 @@
 import cv2
 from ultralytics import YOLO
+import os
+
+os.environ["KMP_DUPLICATE_LIB_OK"]="TRUE"
 
 # Load an official or custom model
 model = YOLO('yolov8n.pt')  # Load an official Detect model
